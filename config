@@ -49,9 +49,12 @@ bindsym $m+$a+apostrophe exec gpaste-zenity.sh -m=choose
 bindsym $m+n exec invert-window-colors.pl
 bindsym $m+m exec place-cursor-at
 
-bindsym $m+u exec cursor-to-display.sh 1
-bindsym $m+i exec cursor-to-display.sh 2
-bindsym $m+o exec cursor-to-display.sh 3
+# bindsym $m+u exec cursor-to-display.sh 1
+# bindsym $m+i exec cursor-to-display.sh 2
+# bindsym $m+o exec cursor-to-display.sh 3
+bindsym $m+u focus output DisplayPort-0
+bindsym $m+i focus output HDMI-2
+bindsym $m+o focus output DVI-0
 
 bindsym Print exec gnome-screenshot
 bindsym $m+Print exec gnome-screenshot -w
@@ -187,10 +190,14 @@ mode "extra" {
   bindsym Return mode "default"
   bindsym Escape mode "default"
 
+  bindsym $m+r exec autostart.sh; mode "default"
+
   bindsym x exec cursor-to-display.sh 1
   bindsym c exec cursor-to-display.sh 2
   bindsym v exec cursor-to-display.sh 3
   bindsym b exec place-cursor-at; mode "default"
+
+  bindsym a sticky toggle; mode "default"
 
   bindsym s exec shutter; mode "default"
   bindsym e [class="^Termite" title="vim"] focus
@@ -265,3 +272,4 @@ assign [class="^Rambox$"]      → im
 assign [class="^Thunderbird$"] → im
 
 for_window [class="^qjackctl$"] floating enable
+for_window [title="^Place Cursor At"] border none
