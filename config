@@ -26,6 +26,8 @@ font pango:monospace 8
 # Use Mouse+$m to drag floating windows to their wanted position
 floating_modifier $m
 
+floating_minimum_size 5 x 5
+
 # start a terminal
 # bindsym $m+Return exec i3-sensible-terminal
 bindsym $m+Return exec termite-dark.sh
