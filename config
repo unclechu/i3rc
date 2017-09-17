@@ -33,6 +33,7 @@ bindsym $m+$a+Return exec termite-light.sh
 
 # kill focused window
 bindsym $m+$a+q kill
+# TODO exterminate
 
 # start dmenu (a program launcher)
 bindsym $m+d exec dmenu_run
@@ -262,3 +263,5 @@ assign [class="^Gnome-ring$"]  → im
 assign [class="^Riot$"]        → im
 assign [class="^Rambox$"]      → im
 assign [class="^Thunderbird$"] → im
+
+for_window [class="^qjackctl$"] floating enable
