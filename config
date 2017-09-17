@@ -7,6 +7,7 @@ set $a Mod1
 set $s Shift
 
 set $new_workspace "i3-msg workspace -- $((`i3-msg -t get_workspaces | jq 'max_by(.[]).num+1'`))"
+set $exterminate "kill -9 -- $((`xdotool getactivewindow getwindowpid`))"
 
 # Font for window titles. Will also be used by the bar unless a different font
 # is used in the bar {} block below.
@@ -35,7 +36,6 @@ bindsym $m+$a+Return exec termite-light.sh
 
 # kill focused window
 bindsym $m+$a+q kill
-# TODO exterminate
 
 # start dmenu (a program launcher)
 bindsym $m+d exec dmenu_run
@@ -190,6 +190,7 @@ mode "extra" {
   bindsym Escape mode "default"
 
   bindsym $m+r exec autostart.sh; mode "default"
+  bindsym $m+q exec $exterminate; mode "default"
 
   bindsym x exec cursor-to-display.sh 1
   bindsym c exec cursor-to-display.sh 2
