@@ -142,6 +142,7 @@ bindsym $m+z workspace prev_on_output
 bindsym $m+x workspace next_on_output
 bindsym $m+$a+z move container to workspace prev_on_output
 bindsym $m+$a+x move container to workspace next_on_output
+bindsym $m+b exec "i3-msg workspace $((`i3-msg -t get_workspaces | jq '.[].num' | sort | tail -1` + 1))"
 
 bindsym $m+comma move workspace to left
 bindsym $m+period move workspace to right
@@ -183,16 +184,52 @@ mode "extra" {
   bindsym Return mode "default"
   bindsym Escape mode "default"
 
-  bindsym s exec shutter ; mode "default"
+  bindsym s exec shutter; mode "default"
 
   bindsym x exec cursor-to-display.sh 1
   bindsym c exec cursor-to-display.sh 2
   bindsym v exec cursor-to-display.sh 3
-  bindsym b exec place-cursor-at ; mode "default"
+  bindsym b exec place-cursor-at; mode "default"
+}
+
+mode "workspace" {
+  bindsym Return mode "default"
+  bindsym Escape mode "default"
+
+  bindsym i workspace im; mode "default"
+  bindsym m workspace music; mode "default"
+  bindsym v workspace video; mode "default"
+
+  bindsym $s+i move container to workspace im; mode "default"
+  bindsym $s+m move container to workspace music; mode "default"
+  bindsym $s+v move container to workspace video; mode "default"
+
+  bindsym 1 workspace 1; mode "default"
+  bindsym 2 workspace 2; mode "default"
+  bindsym 3 workspace 3; mode "default"
+  bindsym 4 workspace 4; mode "default"
+  bindsym 5 workspace 5; mode "default"
+  bindsym 6 workspace 6; mode "default"
+  bindsym 7 workspace 7; mode "default"
+  bindsym 8 workspace 8; mode "default"
+  bindsym 9 workspace 9; mode "default"
+  bindsym 0 workspace 10; mode "default"
+
+  bindsym $s+1 move container to workspace 1; mode "default"
+  bindsym $s+2 move container to workspace 2; mode "default"
+  bindsym $s+3 move container to workspace 3; mode "default"
+  bindsym $s+4 move container to workspace 4; mode "default"
+  bindsym $s+5 move container to workspace 5; mode "default"
+  bindsym $s+6 move container to workspace 6; mode "default"
+  bindsym $s+7 move container to workspace 7; mode "default"
+  bindsym $s+8 move container to workspace 8; mode "default"
+  bindsym $s+9 move container to workspace 9; mode "default"
+  bindsym $s+0 move container to workspace 10; mode "default"
 }
 
 bindsym $m+r mode "resize"
-bindsym $m+g mode "extra"
+bindsym $m+t mode "extra"
+bindsym $m+g mode "workspace"
 
 bar {
   status_command unclechu-xmobar-indicators-cmd
