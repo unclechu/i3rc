@@ -2,6 +2,10 @@
 #
 # Please see http://i3wm.org/docs/userguide.html for a complete reference!
 
+# TODO rotate focus (focus-next)
+# i3-msg -t get_tree
+# xdotool search --all --onlyvisible --desktop --class
+
 set $m Mod4
 set $a Mod1
 set $s Shift
@@ -254,8 +258,9 @@ bar {
   status_command unclechu-xmobar-indicators-cmd
 }
 
-workspace music output DisplayPort-0
-assign [class="^Audacious$"] → music
+# # temporary disabled (audacious as floating folded windows)
+# workspace music output DisplayPort-0
+# assign [class="^Audacious$"] → music
 
 workspace video output DisplayPort-0
 assign [class="^smplayer$"] → video
