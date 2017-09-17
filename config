@@ -6,6 +6,8 @@ set $m Mod4
 set $a Mod1
 set $s Shift
 
+set $new_workspace "i3-msg workspace -- $((`i3-msg -t get_workspaces | jq 'max_by(.[]).num+1'`))"
+
 # Font for window titles. Will also be used by the bar unless a different font
 # is used in the bar {} block below.
 font pango:monospace 8
@@ -142,7 +144,7 @@ bindsym $m+z workspace prev_on_output
 bindsym $m+x workspace next_on_output
 bindsym $m+$a+z move container to workspace prev_on_output
 bindsym $m+$a+x move container to workspace next_on_output
-bindsym $m+b exec "i3-msg workspace -- $((`i3-msg -t get_workspaces | jq 'max_by(.[]).num+1'`))"
+bindsym $m+b exec $new_workspace
 
 bindsym $m+comma move workspace to left
 bindsym $m+period move workspace to right
@@ -204,27 +206,35 @@ mode "workspace" {
   bindsym $s+m move container to workspace music; mode "default"
   bindsym $s+v move container to workspace video; mode "default"
 
-  bindsym 1 workspace 1; mode "default"
-  bindsym 2 workspace 2; mode "default"
-  bindsym 3 workspace 3; mode "default"
-  bindsym 4 workspace 4; mode "default"
-  bindsym 5 workspace 5; mode "default"
-  bindsym 6 workspace 6; mode "default"
-  bindsym 7 workspace 7; mode "default"
-  bindsym 8 workspace 8; mode "default"
-  bindsym 9 workspace 9; mode "default"
-  bindsym 0 workspace 10; mode "default"
+  bindsym 1 workspace 1
+  bindsym 2 workspace 2
+  bindsym 3 workspace 3
+  bindsym 4 workspace 4
+  bindsym 5 workspace 5
+  bindsym 6 workspace 6
+  bindsym 7 workspace 7
+  bindsym 8 workspace 8
+  bindsym 9 workspace 9
+  bindsym 0 workspace 10
 
-  bindsym $s+1 move container to workspace 1; mode "default"
-  bindsym $s+2 move container to workspace 2; mode "default"
-  bindsym $s+3 move container to workspace 3; mode "default"
-  bindsym $s+4 move container to workspace 4; mode "default"
-  bindsym $s+5 move container to workspace 5; mode "default"
-  bindsym $s+6 move container to workspace 6; mode "default"
-  bindsym $s+7 move container to workspace 7; mode "default"
-  bindsym $s+8 move container to workspace 8; mode "default"
-  bindsym $s+9 move container to workspace 9; mode "default"
-  bindsym $s+0 move container to workspace 10; mode "default"
+  bindsym $s+1 move container to workspace 1
+  bindsym $s+2 move container to workspace 2
+  bindsym $s+3 move container to workspace 3
+  bindsym $s+4 move container to workspace 4
+  bindsym $s+5 move container to workspace 5
+  bindsym $s+6 move container to workspace 6
+  bindsym $s+7 move container to workspace 7
+  bindsym $s+8 move container to workspace 8
+  bindsym $s+9 move container to workspace 9
+  bindsym $s+0 move container to workspace 10
+
+  bindsym z workspace prev_on_output
+  bindsym x workspace next_on_output
+  bindsym $s+z move container to workspace prev_on_output
+  bindsym $s+x move container to workspace next_on_output
+
+  bindsym b workspace back_and_forth
+  bindsym n exec $new_workspace; mode "default"
 }
 
 bindsym $m+r mode "resize"
