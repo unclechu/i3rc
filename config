@@ -49,7 +49,7 @@ bindsym $m+m exec place-cursor-at
 bindsym Print exec gnome-screenshot
 bindsym $m+Print exec gnome-screenshot -w
 bindsym $s+Print exec shutter
-bindsym Pause exec "sleep 0.1s ; gnome-screenshot -a"
+bindsym Pause exec "sleep 0.5s ; gnome-screenshot -a"
 bindsym $m+Pause exec gnome-screenshot -ia
 
 bindsym $m+XF86AudioPlay exec audacious --play
@@ -89,12 +89,8 @@ bindsym $m+$a+Down move down
 bindsym $m+$a+Up move up
 bindsym $m+$a+Right move right
 
-# split in horizontal orientation
-# bindsym $m+h split h
-bindsym $m+c split h
-
-# split in vertical orientation
-bindsym $m+v split v
+bindsym $m+c split v
+bindsym $m+v split h
 
 # enter fullscreen mode for the focused container
 bindsym $m+f fullscreen toggle
