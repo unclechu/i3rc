@@ -255,7 +255,7 @@ bindsym $m+t mode "extra"
 bindsym $m+g mode "workspace"
 
 bar {
-  status_command unclechu-xmobar-indicators-cmd
+  status_command unclechu-i3-status
 }
 
 # # temporary disabled (audacious as floating folded windows)
