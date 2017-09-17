@@ -43,8 +43,8 @@ bindsym $m+p exec gmrun
 bindsym $m+apostrophe exec gpaste-zenity.sh
 bindsym $m+$a+apostrophe exec gpaste-zenity.sh -m=choose
 
-# TODO invert colors of window (compton)
-# TODO place-cursor-at shortcuts (+ no decorations hook)
+bindsym $m+n exec invert-window-colors.pl
+bindsym $m+m exec place-cursor-at
 
 bindsym Print exec gnome-screenshot
 bindsym $m+Print exec gnome-screenshot -w
