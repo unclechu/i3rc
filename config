@@ -40,6 +40,31 @@ bindsym $m+p exec gmrun
 # installed.
 # bindsym $m+d exec --no-startup-id i3-dmenu-desktop
 
+bindsym $m+apostrophe exec gpaste-zenity.sh
+bindsym $m+$a+apostrophe exec gpaste-zenity.sh -m=choose
+
+# TODO invert colors of window (compton)
+# TODO place-cursor-at shortcuts (+ no decorations hook)
+
+bindsym Print exec gnome-screenshot
+bindsym $m+Print exec gnome-screenshot -w
+bindsym $s+Print exec shutter
+bindsym Pause exec "sleep 0.1s ; gnome-screenshot -a"
+bindsym $m+Pause exec gnome-screenshot -ia
+
+bindsym $m+XF86AudioPlay exec audacious --play
+bindsym XF86AudioPlay exec audacious --play-pause
+bindsym XF86AudioPrev exec audacious --rew
+bindsym XF86AudioNext exec audacious --fwd
+bindsym XF86AudioStop exec audacious --stop
+
+bindsym XF86Calculator exec gnome-calculator
+
+bindsym $m+XF86AudioMute exec pamng.sh reset
+bindsym XF86AudioMute exec pamng.sh mute
+bindsym XF86AudioLowerVolume exec pamng.sh dec
+bindsym XF86AudioRaiseVolume exec pamng.sh inc
+
 # change focus
 bindsym $m+h focus left
 bindsym $m+j focus down
@@ -66,7 +91,7 @@ bindsym $m+$a+Right move right
 
 # split in horizontal orientation
 # bindsym $m+h split h
-bindsym $m+b split h
+bindsym $m+c split h
 
 # split in vertical orientation
 bindsym $m+v split v
@@ -114,13 +139,13 @@ bindsym $m+$a+8 move container to workspace 8
 bindsym $m+$a+9 move container to workspace 9
 bindsym $m+$a+0 move container to workspace 10
 
-bindsym $m+t workspace next_on_output
-bindsym $m+g workspace prev_on_output
-bindsym $m+$a+t move container to workspace next_on_output
-bindsym $m+$a+g move container to workspace prev_on_output
+bindsym $m+z workspace prev_on_output
+bindsym $m+x workspace next_on_output
+bindsym $m+$a+z move container to workspace prev_on_output
+bindsym $m+$a+x move container to workspace next_on_output
 
-bindsym $m+z move workspace to left
-bindsym $m+x move workspace to right
+bindsym $m+comma move workspace to left
+bindsym $m+period move workspace to right
 
 # reload the configuration file
 bindsym $m+$a+c reload
