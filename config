@@ -49,16 +49,13 @@ bindsym $m+$a+apostrophe exec gpaste-zenity.sh -m=choose
 bindsym $m+n exec invert-window-colors.pl
 bindsym $m+m exec place-cursor-at
 
-# bindsym $m+u exec cursor-to-display.sh 1
-# bindsym $m+i exec cursor-to-display.sh 2
-# bindsym $m+o exec cursor-to-display.sh 3
 bindsym $m+u focus output DisplayPort-0
 bindsym $m+i focus output HDMI-2
 bindsym $m+o focus output DVI-0
 
 bindsym Print exec gnome-screenshot
 bindsym $m+Print exec gnome-screenshot -w
-bindsym Pause exec "sleep 0.5s ; gnome-screenshot -a"
+bindsym --release Pause exec gnome-screenshot -a
 bindsym $m+Pause exec gnome-screenshot -ia
 
 bindsym $m+XF86AudioPlay exec audacious --play
