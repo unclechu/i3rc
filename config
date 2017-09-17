@@ -186,12 +186,13 @@ mode "extra" {
   bindsym Return mode "default"
   bindsym Escape mode "default"
 
-  bindsym s exec shutter; mode "default"
-
   bindsym x exec cursor-to-display.sh 1
   bindsym c exec cursor-to-display.sh 2
   bindsym v exec cursor-to-display.sh 3
   bindsym b exec place-cursor-at; mode "default"
+
+  bindsym s exec shutter; mode "default"
+  bindsym e [class="^Termite" title="vim"] focus
 }
 
 mode "workspace" {
