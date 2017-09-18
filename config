@@ -10,7 +10,7 @@ set $m Mod4
 set $a Mod1
 set $s Shift
 
-set $new_workspace "i3-msg workspace -- $((`i3-msg -t get_workspaces | jq 'max_by(.[]).num+1'`))"
+set $new_workspace "i3-msg workspace -- $((`i3-msg -t get_workspaces | jq 'map(select(.num > 0).num) | [range(1; max+2)]-. | min'`))"
 set $exterminate "kill -9 -- $((`xdotool getactivewindow getwindowpid`))"
 
 # Font for window titles. Will also be used by the bar unless a different font
