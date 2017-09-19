@@ -3,8 +3,24 @@
 # Please see http://i3wm.org/docs/userguide.html for a complete reference!
 
 # TODO rotate focus (focus-next)
-# i3-msg -t get_tree
-# xdotool search --all --onlyvisible --desktop --class
+#      i3-msg -t get_tree
+#      xdotool search --all --onlyvisible --desktop --class
+
+# TODO rearrange numeric workspaces
+
+# TODO zenity-based app to
+#      1. fuzzy-select named workspace
+#      2. fuzzy-select window by title
+#      3. renaming workspaces
+#      4. marking windows
+#      5. navigating by marked windows
+
+# TODO notify applet to receive notifications
+
+# TODO realize how to prevent some apps from *real* fullscreen (like in xmonad)
+
+# TODO fork compton to patch negative-colors feature to make window colors also
+#      grayscale
 
 set $m Mod4
 set $a Mod1
@@ -58,6 +74,10 @@ bindsym $m+m exec place-cursor-at
 bindsym $m+u focus output DisplayPort-0
 bindsym $m+i focus output HDMI-2
 bindsym $m+o focus output DVI-0
+
+bindsym $m+$a+u move workspace to output DisplayPort-0
+bindsym $m+$a+i move workspace to output HDMI-2
+bindsym $m+$a+o move workspace to output DVI-0
 
 bindsym Print exec gnome-screenshot
 bindsym $m+Print exec gnome-screenshot -w
@@ -282,3 +302,8 @@ for_window [title="^Place Cursor At"] border none
 for_window [class="^Audacious$" floating] border pixel 2
 for_window [class="^Gnome-calculator$"] border pixel 2
 for_window [class="^(Gnome-calendar|Nautilus)$"] border normal
+
+focus_on_window_activation none
+
+# TODO no-focus for everything but few apps
+# no_focus [class(!)="^Gmrun$"]
