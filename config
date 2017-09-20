@@ -239,39 +239,45 @@ mode "workspace" {
   bindsym Return mode "default"
   bindsym Escape mode "default"
 
-  bindsym i workspace im; mode "default"
-  bindsym m workspace music; mode "default"
-  bindsym v workspace video; mode "default"
-
+  bindsym    i                   workspace im; mode "default"
   bindsym $s+i move container to workspace im; mode "default"
+
+  bindsym    m                   workspace music; mode "default"
   bindsym $s+m move container to workspace music; mode "default"
+
+  bindsym    v                   workspace video; mode "default"
   bindsym $s+v move container to workspace video; mode "default"
 
-  bindsym 1 workspace 1
-  bindsym 2 workspace 2
-  bindsym 3 workspace 3
-  bindsym 4 workspace 4
-  bindsym 5 workspace 5
-  bindsym 6 workspace 6
-  bindsym 7 workspace 7
-  bindsym 8 workspace 8
-  bindsym 9 workspace 9
-  bindsym 0 workspace 10
+  bindsym    g                   workspace main; mode "default"
+  bindsym $s+g move container to workspace main; mode "default"
 
+  bindsym    c                   workspace code; mode "default"
+  bindsym $s+c move container to workspace code; mode "default"
+
+  bindsym    1                   workspace 1
   bindsym $s+1 move container to workspace 1
+  bindsym    2                   workspace 2
   bindsym $s+2 move container to workspace 2
+  bindsym    3                   workspace 3
   bindsym $s+3 move container to workspace 3
+  bindsym    4                   workspace 4
   bindsym $s+4 move container to workspace 4
+  bindsym    5                   workspace 5
   bindsym $s+5 move container to workspace 5
+  bindsym    6                   workspace 6
   bindsym $s+6 move container to workspace 6
+  bindsym    7                   workspace 7
   bindsym $s+7 move container to workspace 7
+  bindsym    8                   workspace 8
   bindsym $s+8 move container to workspace 8
+  bindsym    9                   workspace 9
   bindsym $s+9 move container to workspace 9
+  bindsym    0                   workspace 10
   bindsym $s+0 move container to workspace 10
 
-  bindsym z workspace prev_on_output
-  bindsym x workspace next_on_output
+  bindsym    z                   workspace prev_on_output
   bindsym $s+z move container to workspace prev_on_output
+  bindsym    x                   workspace next_on_output
   bindsym $s+x move container to workspace next_on_output
 
   bindsym b workspace back_and_forth
@@ -308,6 +314,7 @@ assign [class="^Riot$"]        → im
 assign [class="^Rambox$"]      → im
 assign [class="^Thunderbird$"] → im
 
+workspace main output $d2
 workspace code output $d2
 
 for_window [class="^qjackctl$"] floating enable
