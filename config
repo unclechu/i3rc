@@ -232,7 +232,7 @@ mode "extra" {
   bindsym b border toggle; mode "default"
 
   bindsym s exec shutter; mode "default"
-  bindsym e [class="^Termite" title="vim"] focus
+  bindsym e [class="^Termite" title="vim"] focus; mode "default"
 }
 
 mode "workspace" {
