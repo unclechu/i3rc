@@ -26,7 +26,14 @@ set $m Mod4
 set $a Mod1
 set $s Shift
 
-set $new_workspace "i3-msg workspace -- $((`i3-msg -t get_workspaces | jq 'map(select(.num > 0).num) | [range(1; max+2)]-. | min'`))"
+set $d1 DisplayPort-0
+set $d2 HDMI-2
+set $d3 DVI-0
+
+# starting from 4th workspace because first three bounded to specific outputs
+set $new_workspace "i3-msg workspace -- $((`i3-msg -t get_workspaces | jq 'map(select(.num > 0).num) | [range(4; ([max+2, 5] | max))]-. | min'`))"
+# set $new_workspace "i3-msg workspace -- $((`i3-msg -t get_workspaces | jq 'map(select(.num > 0).num) | [range(1; max+2)]-. | min'`))"
+
 set $exterminate "kill -9 -- $((`xdotool getactivewindow getwindowpid`))"
 
 # Font for window titles. Will also be used by the bar unless a different font
@@ -71,13 +78,13 @@ bindsym $m+$a+apostrophe exec gpaste-zenity.sh -m=choose
 bindsym $m+n exec invert-window-colors.pl
 bindsym $m+m exec place-cursor-at
 
-bindsym $m+u focus output DisplayPort-0
-bindsym $m+i focus output HDMI-2
-bindsym $m+o focus output DVI-0
+bindsym $m+u focus output $d1
+bindsym $m+i focus output $d2
+bindsym $m+o focus output $d3
 
-bindsym $m+$a+u move workspace to output DisplayPort-0
-bindsym $m+$a+i move workspace to output HDMI-2
-bindsym $m+$a+o move workspace to output DVI-0
+bindsym $m+$a+u move workspace to output $d1
+bindsym $m+$a+i move workspace to output $d2
+bindsym $m+$a+o move workspace to output $d3
 
 bindsym Print exec gnome-screenshot
 bindsym $m+Print exec gnome-screenshot -w
@@ -279,15 +286,19 @@ bar {
   status_command unclechu-i3-status
 }
 
-# # temporary disabled (audacious as floating folded windows)
-# workspace music output DisplayPort-0
+workspace 2 output $d1
+workspace 1 output $d2
+workspace 3 output $d3
+
+# temporary disabled (audacious as floating folded windows)
+workspace music output $d1
 # assign [class="^Audacious$"] → music
 
-workspace video output DisplayPort-0
+workspace video output $d1
 assign [class="^smplayer$"] → video
 assign [class="^vlc$"] → video
 
-workspace im output DVI-0
+workspace im output $d3
 assign [class="^Gajim$"]       → im
 assign [class="^Hexchat$"]     → im
 assign [class="^utox$"]        → im
@@ -296,6 +307,8 @@ assign [class="^Gnome-ring$"]  → im
 assign [class="^Riot$"]        → im
 assign [class="^Rambox$"]      → im
 assign [class="^Thunderbird$"] → im
+
+workspace code output $d2
 
 for_window [class="^qjackctl$"] floating enable
 for_window [title="^Place Cursor At"] border none
