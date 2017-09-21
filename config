@@ -233,6 +233,9 @@ mode "extra" {
 
   bindsym s exec shutter; mode "default"
   bindsym e [class="^Termite" title="vim"] focus; mode "default"
+
+  bindsym m [class="^Audacious$" title="Audacious$" floating] focus; mode "default"
+  bindsym p [class="^Audacious$" title="^Audacious Playlist Editor$" floating] focus; mode "default"
 }
 
 mode "workspace" {
