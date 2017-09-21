@@ -287,8 +287,9 @@ mode "workspace" {
   bindsym n exec $new_workspace; mode "default"
 }
 
-bindsym $m+r mode "resize"
+bindsym $m+q mode "extra"
 bindsym $m+t mode "extra"
+bindsym $m+r mode "resize"
 bindsym $m+g mode "workspace"
 
 bar {
