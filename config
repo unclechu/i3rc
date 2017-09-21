@@ -328,5 +328,8 @@ for_window [class="^(Gnome-calendar|Nautilus)$"] border normal
 
 focus_on_window_activation none
 
-# TODO no-focus for everything but few apps
-# no_focus [class(!)="^Gmrun$"]
+no_focus   [class="."]
+for_window [class="^Gmrun$"]            focus
+for_window [class="^Termite"]           focus
+for_window [title="^Place Cursor At"]   focus
+for_window [class="^Gnome-calculator$"] focus
