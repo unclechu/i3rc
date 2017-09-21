@@ -257,33 +257,33 @@ mode "workspace" {
   bindsym    c                   workspace code; mode "default"
   bindsym $s+c move container to workspace code; mode "default"
 
-  bindsym    1                   workspace 1
-  bindsym $s+1 move container to workspace 1
-  bindsym    2                   workspace 2
-  bindsym $s+2 move container to workspace 2
-  bindsym    3                   workspace 3
-  bindsym $s+3 move container to workspace 3
-  bindsym    4                   workspace 4
-  bindsym $s+4 move container to workspace 4
-  bindsym    5                   workspace 5
-  bindsym $s+5 move container to workspace 5
-  bindsym    6                   workspace 6
-  bindsym $s+6 move container to workspace 6
-  bindsym    7                   workspace 7
-  bindsym $s+7 move container to workspace 7
-  bindsym    8                   workspace 8
-  bindsym $s+8 move container to workspace 8
-  bindsym    9                   workspace 9
-  bindsym $s+9 move container to workspace 9
-  bindsym    0                   workspace 10
-  bindsym $s+0 move container to workspace 10
+  bindsym    1                   workspace 1; mode "default"
+  bindsym $s+1 move container to workspace 1; mode "default"
+  bindsym    2                   workspace 2; mode "default"
+  bindsym $s+2 move container to workspace 2; mode "default"
+  bindsym    3                   workspace 3; mode "default"
+  bindsym $s+3 move container to workspace 3; mode "default"
+  bindsym    4                   workspace 4; mode "default"
+  bindsym $s+4 move container to workspace 4; mode "default"
+  bindsym    5                   workspace 5; mode "default"
+  bindsym $s+5 move container to workspace 5; mode "default"
+  bindsym    6                   workspace 6; mode "default"
+  bindsym $s+6 move container to workspace 6; mode "default"
+  bindsym    7                   workspace 7; mode "default"
+  bindsym $s+7 move container to workspace 7; mode "default"
+  bindsym    8                   workspace 8; mode "default"
+  bindsym $s+8 move container to workspace 8; mode "default"
+  bindsym    9                   workspace 9; mode "default"
+  bindsym $s+9 move container to workspace 9; mode "default"
+  bindsym    0                   workspace 10; mode "default"
+  bindsym $s+0 move container to workspace 10; mode "default"
 
   bindsym    z                   workspace prev_on_output
   bindsym $s+z move container to workspace prev_on_output
   bindsym    x                   workspace next_on_output
   bindsym $s+x move container to workspace next_on_output
 
-  bindsym b workspace back_and_forth
+  bindsym b workspace back_and_forth; mode "default"
   bindsym n exec $new_workspace; mode "default"
 }
 
