@@ -334,3 +334,4 @@ for_window [class="^Gmrun$"]            focus
 for_window [class="^Termite"]           focus
 for_window [title="^Place Cursor At"]   focus
 for_window [class="^Gnome-calculator$"] focus
+for_window [class="^Zenity$"]           focus
