@@ -300,9 +300,8 @@ workspace 2 output $d1
 workspace 1 output $d2
 workspace 3 output $d3
 
-# temporary disabled (audacious as floating folded windows)
 workspace music output $d1
-# assign [class="^Audacious$"] → music
+assign [class="^Audacious$"] → music
 
 workspace video output $d1
 assign [class="^smplayer$"] → video
