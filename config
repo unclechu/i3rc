@@ -218,6 +218,7 @@ mode "do" {
 
   bindsym $m+r exec autostart.sh; mode "default"
   bindsym $m+q exec $exterminate; mode "default"
+  bindsym $m+i exec input.sh;     mode "default"
 
   bindsym x exec cursor-to-display.sh 1
   bindsym c exec cursor-to-display.sh 2
