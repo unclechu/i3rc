@@ -78,9 +78,9 @@ bindsym $m+u focus output $d1
 bindsym $m+i focus output $d2
 bindsym $m+o focus output $d3
 
-bindsym $m+$a+u move workspace to output $d1
-bindsym $m+$a+i move workspace to output $d2
-bindsym $m+$a+o move workspace to output $d3
+bindsym $m+$a+u move container to output $d1
+bindsym $m+$a+i move container to output $d2
+bindsym $m+$a+o move container to output $d3
 
 bindsym Print exec gnome-screenshot
 bindsym $m+Print exec gnome-screenshot -w
@@ -236,9 +236,13 @@ mode "do" {
   bindsym p [class="^Audacious$" title="^Audacious Playlist Editor$" floating] focus; mode "default"
 }
 
-mode "go" {
+mode "workspace" {
   bindsym Return mode "default"
   bindsym Escape mode "default"
+
+  bindsym $s+u move workspace to output $d1
+  bindsym $s+i move workspace to output $d2
+  bindsym $s+o move workspace to output $d3
 
   bindsym    i                   workspace im; mode "default"
   bindsym $s+i move container to workspace im; mode "default"
@@ -286,7 +290,7 @@ mode "go" {
 }
 
 bindsym $m+d mode "do"
-bindsym $m+g mode "go"
+bindsym $m+g mode "workspace"
 bindsym $m+r mode "resize"
 
 bar {
