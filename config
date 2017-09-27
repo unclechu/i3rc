@@ -234,6 +234,9 @@ mode "do" {
   # jump to audacious windows (when it's float, winamp classic interface)
   bindsym m [class="^Audacious$" title="Audacious$" floating] focus; mode "default"
   bindsym p [class="^Audacious$" title="^Audacious Playlist Editor$" floating] focus; mode "default"
+
+  bindsym semicolon exec gmrun; mode "default"
+  bindsym $a+semicolon exec dmenu_run; mode "default"
 }
 
 mode "workspace" {
