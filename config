@@ -240,9 +240,9 @@ mode "workspace" {
   bindsym Return mode "default"
   bindsym Escape mode "default"
 
-  bindsym $s+u move workspace to output $d1
-  bindsym $s+i move workspace to output $d2
-  bindsym $s+o move workspace to output $d3
+  bindsym $a+u move workspace to output $d1
+  bindsym $a+i move workspace to output $d2
+  bindsym $a+o move workspace to output $d3
 
   bindsym    i                   workspace im; mode "default"
   bindsym $s+i move container to workspace im; mode "default"
