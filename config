@@ -22,6 +22,10 @@
 # TODO fork compton to patch negative-colors feature to make window colors also
 #      grayscale
 
+# TODO `exec auto-invert-window-colors.pl6` on matched windows when focusing on
+#      them (because windows that are on currently hidden workspaces aren't
+#      handled)
+
 set $m Mod4
 set $a Mod1
 set $s Shift
@@ -235,6 +239,8 @@ mode "do" {
   bindsym m [class="^Audacious$" title="Audacious$" floating] focus; mode "default"
   bindsym p [class="^Audacious$" title="^Audacious Playlist Editor$" floating] focus; mode "default"
 
+  bindsym n exec auto-invert-window-colors.pl6 --reset; mode "default"
+
   bindsym semicolon exec gmrun; mode "default"
   bindsym $a+semicolon exec dmenu_run; mode "default"
 }
@@ -338,3 +344,9 @@ for_window [class="^Termite"]           focus
 for_window [title="^Place Cursor At"]   focus
 for_window [class="^Gnome-calculator$"] focus
 for_window [class="^Zenity$"]           focus
+
+for_window [class="^Gajim$"]       exec auto-invert-window-colors.pl6 gajim
+for_window [class="^Thunderbird$"] exec auto-invert-window-colors.pl6 thunderbird
+for_window [class="^Audacious$"]   exec auto-invert-window-colors.pl6 audacious
+
+exec_always "auto-invert-window-colors.pl6 --off && auto-invert-window-colors.pl6"
