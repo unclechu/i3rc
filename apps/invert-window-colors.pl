@@ -1,30 +1,52 @@
 #!/usr/bin/env perl
 use v5.10; use strict; use warnings; use autodie qw<:all>;
-use IPC::System::Simple qw<runx capturex>;
 use Env qw<DISPLAY>;
+use IPC::System::Simple qw<runx capturex>;
+use Net::DBus qw<dbus_boolean dbus_string dbus_uint16 dbus_uint32>;
 
+my $ARGC = scalar @ARGV;
 (my $dpy = $DISPLAY) =~ s/(:|\.)/_/g;
-my $service = "com.github.chjj.compton.$dpy";
-my $iface = 'com.github.chjj.compton';
+my $conn = Net::DBus->find->get_connection;
 
 sub dbus_req {
-	my $method = shift;
+	my $call = $conn->make_method_call_message(
+		"com.github.chjj.compton.$dpy",
+		'/',
+		'com.github.chjj.compton',
+		shift
+	);
 
-	qw<dbus-send --session --print-reply>,
-		"--dest=$service", '/', "$iface.$method", @_;
+	$call->append_args_list(@_);
+	$conn->send_with_reply_and_block($call, 1000 * 5)->iterator;
 }
 
-runx dbus_req 'opts_set', 'string:track_focus', 'boolean:true';
-chomp(my @x = capturex dbus_req 'find_win', 'string:focused');
-my $cur_wnd = do {$x[1] =~ m/uint32\s+(\d+)/; $1};
+sub set_it {
+	my $to;
+	my $cur_wnd = dbus_req('find_win', dbus_string('focused'))->get_uint32;
 
-chomp(my $is_inverted = do {
-	$_ = capturex dbus_req 'win_get',
-		"uint32:$cur_wnd", 'string:invert_color_force';
+	if (scalar(@_) > 0) {
+		$to = shift;
+	} else {
+		$to = dbus_req(
+			'win_get', dbus_uint32($cur_wnd), dbus_string('invert_color_force')
+		)->get_uint16 == 1 ? 0 : 1;
+	}
 
-	m/uint16\s+(\d+)/;
-	($1 == 1) ? 1 : 0;
-});
+	dbus_req
+		'win_set',
+		dbus_uint32($cur_wnd),
+		dbus_string('invert_color_force'),
+		dbus_uint16($to);
+}
 
-runx dbus_req 'win_set', "uint32:$cur_wnd",
-	'string:invert_color_force', 'uint16:'.($is_inverted ? 0 : 1);
+dbus_req 'opts_set', dbus_string('track_focus'), dbus_boolean(1);
+
+if ($ARGC == 0) {
+	# toggle inverting colors
+	set_it;
+} elsif ($ARGC == 1 && ($ARGV[0] eq '0' || $ARGV[0] eq '1')) {
+	# set inverting colors state explicitly
+	set_it $ARGV[0];
+} else {
+	die q(Incorrect arguments: [) . join(', ', @ARGV) . q(]);
+}
