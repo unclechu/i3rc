@@ -21,20 +21,18 @@ sub dbus_req {
 }
 
 sub set_it {
-	my $to;
-	my $cur_wnd = dbus_req('find_win', dbus_string('focused'))->get_uint32;
+	my $wnd = defined($_[0]) ? $_[0] :
+		dbus_req('find_win', dbus_string('focused'))->get_uint32;
 
-	if (scalar(@_) > 0) {
-		$to = shift;
-	} else {
-		$to = dbus_req(
-			'win_get', dbus_uint32($cur_wnd), dbus_string('invert_color_force')
-		)->get_uint16 == 1 ? 0 : 1;
-	}
+	my $to = defined($_[1]) ? $_[1] : (
+		dbus_req(
+			'win_get', dbus_uint32($wnd), dbus_string('invert_color_force')
+		)->get_uint16 == 1 ? 0 : 1
+	);
 
 	dbus_req
 		'win_set',
-		dbus_uint32($cur_wnd),
+		dbus_uint32($wnd),
 		dbus_string('invert_color_force'),
 		dbus_uint16($to);
 }
@@ -43,10 +41,21 @@ dbus_req 'opts_set', dbus_string('track_focus'), dbus_boolean(1);
 
 if ($ARGC == 0) {
 	# toggle inverting colors
-	set_it;
-} elsif ($ARGC == 1 && ($ARGV[0] eq '0' || $ARGV[0] eq '1')) {
+	set_it undef, undef;
+} elsif ($ARGC == 1 && $ARGV[0] =~ m/^(0|1)$/) {
 	# set inverting colors state explicitly
-	set_it $ARGV[0];
+	set_it undef, $ARGV[0];
+} elsif ($ARGC == 2 && $ARGV[0] eq 'for' && $ARGV[1] =~ m/^[0-9]+$/) {
+	# toggle inverting colors for specific window
+	set_it $ARGV[1], undef;
+} elsif (
+	$ARGC == 3
+	&& $ARGV[0] eq 'for'
+	&& $ARGV[1] =~ m/^[0-9]+$/
+	&& $ARGV[2] =~ m/^(0|1)$/
+) {
+	# set inverting colors state explicitly for specific window
+	set_it $ARGV[1], $ARGV[2];
 } else {
 	die 'Incorrect arguments: [' . join(', ', @ARGV) . ']';
 }
