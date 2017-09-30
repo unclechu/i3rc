@@ -48,5 +48,5 @@ if ($ARGC == 0) {
 	# set inverting colors state explicitly
 	set_it $ARGV[0];
 } else {
-	die q(Incorrect arguments: [) . join(', ', @ARGV) . q(]);
+	die 'Incorrect arguments: [' . join(', ', @ARGV) . ']';
 }
