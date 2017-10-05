@@ -8,6 +8,10 @@ my %mapping := {
 	audacious   => @(:class('^Audacious$')),
 	thunderbird => @(:class('^Thunderbird$')),
 	gajim       => @(:class('^Gajim$')),
+	nheko       => @(:class('^nheko$')),
+	keepassx    => @(:class('^Keepassx$')),
+	qbittorrent => @(:class('^qBittorrent$')),
+	hexchat     => @(:class('^Hexchat$')),
 };
 
 my @search-pfx         := qw<xdotool search --onlyvisible --all>;
