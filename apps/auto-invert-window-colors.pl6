@@ -12,6 +12,8 @@ my %mapping := {
 	keepassx    => @(:class('^Keepassx$')),
 	qbittorrent => @(:class('^qBittorrent$')),
 	hexchat     => @(:class('^Hexchat$')),
+	doublecmd   => @(:class('^Doublecmd$')),
+	gmrun       => @(:class('^Gmrun$')),
 };
 
 my @search-pfx         := qw<xdotool search --onlyvisible --all>;

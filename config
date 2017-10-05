@@ -353,5 +353,7 @@ for_window [class="^nheko$"]       exec auto-invert-window-colors.pl6 nheko
 for_window [class="^Keepassx$"]    exec auto-invert-window-colors.pl6 keepassx
 for_window [class="^qBittorrent$"] exec auto-invert-window-colors.pl6 qbittorrent
 for_window [class="^Hexchat$"]     exec auto-invert-window-colors.pl6 hexchat
+for_window [class="^Doublecmd$"]   exec auto-invert-window-colors.pl6 doublecmd
+for_window [class="^Gmrun$"]       exec auto-invert-window-colors.pl6 gmrun
 
 exec_always "auto-invert-window-colors.pl6 --off && auto-invert-window-colors.pl6"
