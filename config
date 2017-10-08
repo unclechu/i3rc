@@ -75,7 +75,7 @@ bindsym $m+$a+semicolon exec dmenu_run
 bindsym $m+apostrophe exec gpaste-zenity.sh
 bindsym $m+$a+apostrophe exec gpaste-zenity.sh -m=choose
 
-bindsym $m+n exec invert-window-colors.pl
+bindsym $m+n exec invert-window-colors
 bindsym $m+m exec place-cursor-at
 
 bindsym $m+u focus output $d1
