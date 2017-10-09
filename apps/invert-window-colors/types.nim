@@ -10,11 +10,11 @@ type
       of Just: value*: T
       of Nothing: discard
 
-  EitherKind   = enum Left, Right
-  Either[L, R] = object
-    case kind: EitherKind
-      of Left:  left:  L
-      of Right: right: R
+  EitherKind*   = enum Left, Right
+  Either*[L, R] = object
+    case kind*: EitherKind
+      of Left:  left*:  L
+      of Right: right*: R
 
 proc just*[T](x: T): Maybe[T] {.inline.} = Maybe[T](kind: Just, value: x)
 proc nothing*[T](): Maybe[T]  {.inline.} = Maybe[T](kind: Nothing)

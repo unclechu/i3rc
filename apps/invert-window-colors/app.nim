@@ -1,6 +1,9 @@
 # Author:  Viacheslav Lotsmanov
 # License: GPLv3 https://raw.githubusercontent.com/unclechu/i3rc/master/apps/invert-window-colors/license.txt
 
+# TODO Rewrite threads stuff this way:
+#      https://nim-lang.org/docs/manual.html#parallel-spawn-parallel-statement
+
 from strutils import parseInt, format
 from posix    import exitnow
 from re       import Regex, re, find
