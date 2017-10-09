@@ -22,7 +22,7 @@
 # TODO fork compton to patch negative-colors feature to make window colors also
 #      grayscale
 
-# TODO `exec auto-invert-window-colors.pl6` on matched windows when focusing on
+# TODO `exec invert-window-colors` on matched windows when focusing on
 #      them (because windows that are on currently hidden workspaces aren't
 #      handled)
 
@@ -239,7 +239,7 @@ mode "do" {
   bindsym m [class="^Audacious$" title="Audacious$" floating] focus; mode "default"
   bindsym p [class="^Audacious$" title="^Audacious Playlist Editor$" floating] focus; mode "default"
 
-  bindsym n exec auto-invert-window-colors.pl6 --reset; mode "default"
+  bindsym n exec invert-window-colors app all; mode "default"
 
   bindsym semicolon exec gmrun; mode "default"
   bindsym $a+semicolon exec dmenu_run; mode "default"
@@ -346,14 +346,14 @@ for_window [title="^Place Cursor At"]   focus
 for_window [class="^Gnome-calculator$"] focus
 for_window [class="^Zenity$"]           focus
 
-for_window [class="^Gajim$"]       exec auto-invert-window-colors.pl6 gajim
-for_window [class="^Thunderbird$"] exec auto-invert-window-colors.pl6 thunderbird
-for_window [class="^Audacious$"]   exec auto-invert-window-colors.pl6 audacious
-for_window [class="^nheko$"]       exec auto-invert-window-colors.pl6 nheko
-for_window [class="^Keepassx$"]    exec auto-invert-window-colors.pl6 keepassx
-for_window [class="^qBittorrent$"] exec auto-invert-window-colors.pl6 qbittorrent
-for_window [class="^Hexchat$"]     exec auto-invert-window-colors.pl6 hexchat
-for_window [class="^Doublecmd$"]   exec auto-invert-window-colors.pl6 doublecmd
-for_window [class="^Gmrun$"]       exec auto-invert-window-colors.pl6 gmrun
+for_window [class="^Gajim$"]       exec invert-window-colors app gajim
+for_window [class="^Thunderbird$"] exec invert-window-colors app thunderbird
+for_window [class="^Audacious$"]   exec invert-window-colors app audacious
+for_window [class="^nheko$"]       exec invert-window-colors app nheko
+for_window [class="^Keepassx$"]    exec invert-window-colors app keepassx
+for_window [class="^qBittorrent$"] exec invert-window-colors app qbittorrent
+for_window [class="^Hexchat$"]     exec invert-window-colors app hexchat
+for_window [class="^Doublecmd$"]   exec invert-window-colors app doublecmd
+for_window [class="^Gmrun$"]       exec invert-window-colors app gmrun
 
-exec_always "auto-invert-window-colors.pl6 --off && auto-invert-window-colors.pl6"
+exec_always invert-window-colors app all

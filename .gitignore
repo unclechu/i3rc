@@ -1,3 +1,5 @@
 apps/invert-window-colors/app
 apps/invert-window-colors/invert-window-colors
 apps/invert-window-colors/nimcache
+.lvimrc
+.lvimrc
