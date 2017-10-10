@@ -75,7 +75,7 @@ bindsym $m+$a+semicolon exec dmenu_run
 bindsym $m+apostrophe exec gpaste-zenity.sh
 bindsym $m+$a+apostrophe exec gpaste-zenity.sh -m=choose
 
-bindsym $m+n exec invert-window-colors
+bindsym $m+n exec timeout 2s invert-window-colors
 bindsym $m+m exec place-cursor-at
 
 bindsym $m+u focus output $d1
@@ -239,7 +239,7 @@ mode "do" {
   bindsym m [class="^Audacious$" title="Audacious$" floating] focus; mode "default"
   bindsym p [class="^Audacious$" title="^Audacious Playlist Editor$" floating] focus; mode "default"
 
-  bindsym n exec invert-window-colors app all; mode "default"
+  bindsym n exec timeout 2s invert-window-colors app all; mode "default"
 
   bindsym semicolon exec gmrun; mode "default"
   bindsym $a+semicolon exec dmenu_run; mode "default"
@@ -346,14 +346,14 @@ for_window [title="^Place Cursor At"]   focus
 for_window [class="^Gnome-calculator$"] focus
 for_window [class="^Zenity$"]           focus
 
-for_window [class="^Gajim$"]       exec invert-window-colors app gajim
-for_window [class="^Thunderbird$"] exec invert-window-colors app thunderbird
-for_window [class="^Audacious$"]   exec invert-window-colors app audacious
-for_window [class="^nheko$"]       exec invert-window-colors app nheko
-for_window [class="^Keepassx$"]    exec invert-window-colors app keepassx
-for_window [class="^qBittorrent$"] exec invert-window-colors app qbittorrent
-for_window [class="^Hexchat$"]     exec invert-window-colors app hexchat
-for_window [class="^Doublecmd$"]   exec invert-window-colors app doublecmd
-for_window [class="^Gmrun$"]       exec invert-window-colors app gmrun
+for_window [class="^Gajim$"]       exec timeout 2s invert-window-colors app gajim
+for_window [class="^Thunderbird$"] exec timeout 2s invert-window-colors app thunderbird
+for_window [class="^Audacious$"]   exec timeout 2s invert-window-colors app audacious
+for_window [class="^nheko$"]       exec timeout 2s invert-window-colors app nheko
+for_window [class="^Keepassx$"]    exec timeout 2s invert-window-colors app keepassx
+for_window [class="^qBittorrent$"] exec timeout 2s invert-window-colors app qbittorrent
+for_window [class="^Hexchat$"]     exec timeout 2s invert-window-colors app hexchat
+for_window [class="^Doublecmd$"]   exec timeout 2s invert-window-colors app doublecmd
+for_window [class="^Gmrun$"]       exec timeout 2s invert-window-colors app gmrun
 
-exec_always invert-window-colors app all
+exec_always timeout 2s invert-window-colors app all

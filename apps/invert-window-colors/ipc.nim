@@ -13,7 +13,6 @@ let
   obj: ObjectPath = "/".ObjectPath
 
 bus.GC_ref
-
 var L: Lock
 
 proc dbusReq*(callMethod: string; args: varargs[DbusValue]): Reply =

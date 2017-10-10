@@ -1,14 +1,11 @@
 # Author:  Viacheslav Lotsmanov
 # License: GPLv3 https://raw.githubusercontent.com/unclechu/i3rc/master/apps/invert-window-colors/license.txt
 
-# TODO Rewrite threads stuff this way:
-#      https://nim-lang.org/docs/manual.html#parallel-spawn-parallel-statement
-
 from strutils import parseInt, format
 from posix    import exitnow
 from re       import Regex, re, find
 
-import osproc, streams, locks, types, ipc
+import osproc, streams, locks, types, ipc, threadpool
 
 type
   Filter = object
@@ -41,7 +38,7 @@ proc getApps*(): seq[string] =
     of Nothing:
          result = @[]
          for x in mapping: result.add x.name
-         appsCache = just(result)
+         appsCache = result.just
 
 #[
   FIXME Sometimes it fails with error like this:
@@ -107,6 +104,8 @@ proc childProc( cmd: string; args: openarray[string]
     childProc(cmd, args, handler, careAboutFail)
     return
 
+# FIXME Sometimes it fails with:
+#       Getting root window id failed with exit code: 143
 proc getRootWnd(): uint32 =
 
   var matches: array[1, string] = [""]
@@ -151,60 +150,40 @@ proc getParentWnd(childWnd: uint32): Maybe[uint32] =
   else:
     matches[0].parseInt.uint32.just
 
-type
-  AppThreadArgs       = tuple[idx: int, state: State]
-  AppFilterThreadArgs = tuple[filter: Filter, state: State ]
-  WndThreadArgs       = tuple[wnd: uint32, state: State]
-
 var rootWnd: uint32
 
-# Threads spawning hierarchy:
-#   handleApps ->
-#    handleAppThread ->
-#     handleAppFilterThread ->
-#      handleWnd
-
-proc handleWnd(targs: WndThreadArgs) {.thread.} =
-  let parwnd: Maybe[uint32] = targs.wnd.getParentWnd
+proc handleWnd(wnd: uint32; state: State) =
+  let parwnd: Maybe[uint32] = wnd.getParentWnd
   if parwnd.isNothing or parwnd.value == rootWnd: return
   {.gcsafe.}:
-    if targs.state == toggle:
+    if state == toggle:
       # TODO do this hacky stuff different way
       ipc.setState(parwnd, State.off, failProtect=true)
       ipc.setState(parwnd, State.on,  failProtect=true)
     else:
-      ipc.setState(parwnd, targs.state, failProtect=true)
+      ipc.setState(parwnd, state, failProtect=true)
 
-proc handleAppFilterThread(targs: AppFilterThreadArgs) {.thread.} =
+proc handleAppFilter(filter: Filter; state: State) =
   var args: seq[string] = @["search", "--onlyvisible", "--all"]
-  if isJust targs.filter.class: args.add(["--class", targs.filter.class.value])
-  if isJust targs.filter.name: args.add(["--name", targs.filter.name.value])
-  var thr: seq[Thread[WndThreadArgs]] = @[]
+  if isJust filter.class: args.add(["--class", filter.class.value])
+  if isJust filter.name: args.add(["--name", filter.name.value])
 
   proc handler(hproc: Process; sout: Stream) =
     var line: string = ""
-    while sout.readline(line):
-      thr.setLen(thr.len + 1)
-      createThread( thr[thr.len - 1], handleWnd
-                  , (wnd: line.parseInt.uint32, state: targs.state) )
+    while sout.readline(line): spawn handleWnd(line.parseInt.uint32, state)
 
   childProc("xdotool", args, handler, nothing[string]())
-  thr.joinThreads
 
-proc handleAppThread(targs: AppThreadArgs) {.thread.} =
-  {.gcsafe.}: (let app: AppDecl = mapping[targs.idx])
+proc handleApp(idx: int, state: State) {.thread.} =
+  {.gcsafe.}: (let app: AppDecl = mapping[idx])
   L.acquire; "Handling '$1' application…".format(app.name).echo; L.release
-  var thr = newSeq[Thread[AppFilterThreadArgs]](app.filters.len)
-  for n, x in app.filters.pairs:
-    createThread(thr[n], handleAppFilterThread, (filter: x, state: targs.state))
-  thr.joinThreads
+  for n, x in app.filters.pairs: spawn handleAppFilter(x, state)
 
+# FIXME Sometimes threads doesn't finishes and app is stuck forever.
 proc handleApps*(indexes: seq[int]; state: State) =
   rootWnd = getRootWnd()
-  var thr = newSeq[Thread[AppThreadArgs]](indexes.len)
-  for n, idx in indexes.pairs:
-    createThread(thr[n], handleAppThread, (idx, state))
-  thr.joinThreads
+  for n, idx in indexes.pairs: spawn handleApp(idx, state)
+  sync() # wait for all threads to finish
   L.acquire; "Done with apps.".echo; L.release
 
 initLock L
