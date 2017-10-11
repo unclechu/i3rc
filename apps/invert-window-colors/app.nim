@@ -106,6 +106,7 @@ proc childProc( cmd: string; args: openarray[string]
 
 # FIXME Sometimes it fails with:
 #       Getting root window id failed with exit code: 143
+#       (That comes from `childProc`)
 proc getRootWnd(): uint32 =
 
   var matches: array[1, string] = [""]
@@ -129,6 +130,24 @@ proc getParentWnd(childWnd: uint32): Maybe[uint32] =
 
   var matches: array[1, string] = [""]
 
+  #[
+    FIXME Sometimes (pretty rare) this happens:
+      Traceback (most recent call last)
+      threadpool.nim(329)      slave
+      app.nim(173)             handleWndWrapper
+      app.nim(156)             handleWnd
+      app.nim(146)             getParentWnd
+      app.nim(86)              childProc
+      app.nim(134)             handler
+      streams.nim(266)         readLine
+      streams.nim(180)         readChar
+      streams.nim(102)         readData
+      streams.nim(390)         fsReadData
+      sysio.nim(65)            checkErr
+      sysio.nim(57)            raiseEIO
+      system.nim(2724)         sysFatal
+      Error: unhandled exception: Unknown IO Error [IOError]
+  ]#
   proc handler(hproc: Process; sout: Stream) =
     var line: string = ""
     while sout.readline(line):
