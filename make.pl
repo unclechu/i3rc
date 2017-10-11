@@ -17,18 +17,18 @@ if ($ARGV[0] eq 'create-symlink') {
   chdir "$HOME/.config/";
   unlink 'i3' if -l 'i3';
 
-  chdir "$__dirname/apps/invert-window-colors/";
+  chdir "$__dirname/apps/invert-window-colors-nim/";
   unlink 'main' if -f 'main' ;
 
 } elsif ($ARGV[0] eq 'build-invert-window-colors') {
 
-  chdir "$__dirname/apps/invert-window-colors";
+  chdir "$__dirname/apps/invert-window-colors-nim/";
   runx qw(nimble install -y);
   runx qw(nim c -o:invert-window-colors --threads:on main.nim);
 
 } elsif ($ARGV[0] eq 'clean-invert-window-colors') {
 
-  chdir "$__dirname/apps/invert-window-colors/";
+  chdir "$__dirname/apps/invert-window-colors-nim/";
   unlink 'main' if -f 'main' ;
   unlink 'invert-window-colors' if -f 'invert-window-colors' ;
   runx qw(rm -rf nimcache) if -d 'nimcache';
