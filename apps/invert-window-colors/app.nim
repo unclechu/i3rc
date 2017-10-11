@@ -5,8 +5,7 @@ from strutils import parseInt, format
 from posix    import exitnow
 from re       import Regex, re, find
 
-# import osproc, streams, locks, types, ipc, threadpool
-import osproc, streams, locks, types, ipc
+import osproc, streams, types, ipc
 
 type
   Filter = object
@@ -31,7 +30,6 @@ let
 
 var
   appsCache: Maybe[seq[string]] = nothing[seq[string]]()
-  # L: Lock
 
 proc getApps*(): seq[string] =
   case appsCache.kind
@@ -41,29 +39,6 @@ proc getApps*(): seq[string] =
          for x in mapping: result.add x.name
          appsCache = result.just
 
-#[
-  FIXME Sometimes it fails with error like this:
-    Traceback (most recent call last)
-    app.nim(122)             handleWnd
-    app.nim(101)             getParentWnd
-    app.nim(48)              childProc
-    osproc.nim(808)          startProcess
-    osproc.nim(916)          startProcessAuxFork
-    oserr.nim(113)           raiseOSError
-    Error: unhandled exception:
-      Additional info: Could not find command: 'xwininfo'. OS error: Bad file descriptor [OSError]
-  Sometimes with this one:
-    Traceback (most recent call last)
-    app.nim(122)             handleWnd
-    app.nim(101)             getParentWnd
-    app.nim(50)              childProc
-    osproc.nim(1211)         errorStream
-    osproc.nim(1196)         createStream
-    oserr.nim(113)           raiseOSError
-    Error: unhandled exception: Bad file descriptor [OSError]
-  Usually it happens with "Gotcha OSError [1]: …".
-  I have never seen it happened with "Gotcha OSError [2]: …".
-]#
 proc childProc( cmd: string; args: openarray[string]
               ; handler: proc (hproc: Process; sout: Stream)
               ; careAboutFail: Maybe[string] ) =
@@ -77,10 +52,7 @@ proc childProc( cmd: string; args: openarray[string]
     sout  = hproc.outputStream
     serr  = hproc.errorStream
   except OSError:
-    # L.acquire
     stderr.writeline "Gotcha OSError [1]: " & getCurrentExceptionMsg()
-    # L.release
-
     childProc(cmd, args, handler, careAboutFail)
     return
 
@@ -91,23 +63,16 @@ proc childProc( cmd: string; args: openarray[string]
 
     if careAboutFail.isJust and code != 0:
       var line: string = ""
-      # L.acquire
       while serr.readline(line): stderr.writeline line
       stderr.writeline careAboutFail.value & " failed with exit code: " & $code
       exitnow 1
 
     hproc.close
   except OSError:
-    # L.acquire
     stderr.writeline "Gotcha OSError [2]: " & getCurrentExceptionMsg()
-    # L.release
-
     childProc(cmd, args, handler, careAboutFail)
     return
 
-# FIXME Sometimes it fails with:
-#       Getting root window id failed with exit code: 143
-#       (That comes from `childProc`)
 proc getRootWnd(): uint32 =
 
   var matches: array[1, string] = [""]
@@ -121,7 +86,6 @@ proc getRootWnd(): uint32 =
         hproc.terminate
         break
     if matches[0] == "":
-      # L.acquire; stderr.writeline "Root window id not found!"; exitnow 1
       stderr.writeline "Root window id not found!"
 
   childProc( "xwininfo", ["-int", "-root"], handler
@@ -130,10 +94,7 @@ proc getRootWnd(): uint32 =
 
 var rootWnd: uint32
 
-# FIXME Sometimes threads doesn't finishes and app is stuck forever.
 proc handleApps*(indexes: seq[int]; state: State) =
   rootWnd = getRootWnd()
   rootWnd.echo
   "Done with apps.".echo
-
-# initLock L

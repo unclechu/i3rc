@@ -4,7 +4,7 @@
 from strutils import replace
 from os       import getenv
 
-import types, dbus, locks
+import types, dbus
 
 let
   bus: Bus        = getbus dbus.DBUS_BUS_SESSION
@@ -12,15 +12,10 @@ let
   dst: string     = "com.github.chjj.compton." & dpy
   obj: ObjectPath = "/".ObjectPath
 
-# bus.GC_ref
-# var L: Lock
-
 proc dbusReq*(callMethod: string; args: varargs[DbusValue]): Reply =
-  # L.acquire
   let msg: Message = makecall(dst, obj, "com.github.chjj.compton", callMethod)
   for x in args: msg.append x
   result = waitForReply sendMessageWithReply(bus, msg)
-  # L.release
   result.raiseIfError
 
 proc getFocusedWnd(): uint32 {.inline.} =
@@ -51,5 +46,3 @@ proc setState*(wnd: Maybe[uint32]; state: State, failProtect: bool = false) =
         "Prevented fail by remote DBus exception: " & getCurrentExceptionMsg())
     else:
       raise
-
-# initLock L
