@@ -42,7 +42,8 @@ set $exterminate "kill -9 -- $((`xdotool getactivewindow getwindowpid`))"
 
 # Font for window titles. Will also be used by the bar unless a different font
 # is used in the bar {} block below.
-font pango:monospace 8
+# font pango:monospace 8
+font pango:hack 9
 
 # This font is widely installed, provides lots of unicode glyphs, right-to-left
 # text rendering and scalability on retina/hidpi displays (thanks to pango).
@@ -346,14 +347,14 @@ for_window [title="^Place Cursor At"]   focus
 for_window [class="^Gnome-calculator$"] focus
 for_window [class="^Zenity$"]           focus
 
-for_window [class="^Gajim$"]       exec timeout 2s invert-window-colors app gajim
-for_window [class="^Thunderbird$"] exec timeout 2s invert-window-colors app thunderbird
-for_window [class="^Audacious$"]   exec timeout 2s invert-window-colors app audacious
-for_window [class="^nheko$"]       exec timeout 2s invert-window-colors app nheko
-for_window [class="^Keepassx$"]    exec timeout 2s invert-window-colors app keepassx
-for_window [class="^qBittorrent$"] exec timeout 2s invert-window-colors app qbittorrent
-for_window [class="^Hexchat$"]     exec timeout 2s invert-window-colors app hexchat
-for_window [class="^Doublecmd$"]   exec timeout 2s invert-window-colors app doublecmd
-for_window [class="^Gmrun$"]       exec timeout 2s invert-window-colors app gmrun
+# for_window [class="^Gajim$"]       exec timeout 2s invert-window-colors app gajim
+# for_window [class="^Thunderbird$"] exec timeout 2s invert-window-colors app thunderbird
+# for_window [class="^Audacious$"]   exec timeout 2s invert-window-colors app audacious
+# for_window [class="^nheko$"]       exec timeout 2s invert-window-colors app nheko
+# for_window [class="^Keepassx$"]    exec timeout 2s invert-window-colors app keepassx
+# for_window [class="^qBittorrent$"] exec timeout 2s invert-window-colors app qbittorrent
+# for_window [class="^Hexchat$"]     exec timeout 2s invert-window-colors app hexchat
+# for_window [class="^Doublecmd$"]   exec timeout 2s invert-window-colors app doublecmd
+# for_window [class="^Gmrun$"]       exec timeout 2s invert-window-colors app gmrun
 
 exec_always timeout 2s invert-window-colors app all

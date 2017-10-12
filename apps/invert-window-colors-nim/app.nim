@@ -12,20 +12,21 @@ type
     class: Maybe[string]
     name:  Maybe[string]
   AppDecl = tuple[name: string, filters: seq[Filter]]
-  AppMapping = array[9, AppDecl]
+  AppMapping = array[2, AppDecl]
+  # AppMapping = array[9, AppDecl]
 
 let
   nop = nothing[string]()
   mapping*: AppMapping =
-    [ ("audacious",   @[Filter(class: just("^Audacious$"),   name: nop)])
-    , ("thunderbird", @[Filter(class: just("^Thunderbird$"), name: nop)])
-    , ("gajim",       @[Filter(class: just("^Gajim$"),       name: nop)])
-    , ("nheko",       @[Filter(class: just("^nheko$"),       name: nop)])
-    , ("keepassx",    @[Filter(class: just("^Keepassx$"),    name: nop)])
+    [ #("audacious",   @[Filter(class: just("^Audacious$"),   name: nop)])
+    # , ("thunderbird", @[Filter(class: just("^Thunderbird$"), name: nop)])
+    # , ("gajim",       @[Filter(class: just("^Gajim$"),       name: nop)])
+      ("nheko",       @[Filter(class: just("^nheko$"),       name: nop)])
+    # , ("keepassx",    @[Filter(class: just("^Keepassx$"),    name: nop)])
     , ("qbittorrent", @[Filter(class: just("^qBittorrent$"), name: nop)])
-    , ("hexchat",     @[Filter(class: just("^Hexchat$"),     name: nop)])
-    , ("doublecmd",   @[Filter(class: just("^Doublecmd$"),   name: nop)])
-    , ("gmrun",       @[Filter(class: just("^Gmrun$"),       name: nop)])
+    # , ("hexchat",     @[Filter(class: just("^Hexchat$"),     name: nop)])
+    # , ("doublecmd",   @[Filter(class: just("^Doublecmd$"),   name: nop)])
+    # , ("gmrun",       @[Filter(class: just("^Gmrun$"),       name: nop)])
     ]
 
 var
