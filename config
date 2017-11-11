@@ -342,6 +342,7 @@ for_window [class="^Eog$"]                       border normal
 for_window [class="^Evince$"]                    border normal
 for_window [class="^File-roller$"]               border normal
 for_window [class="^Totem$"]                     border normal
+for_window [class="^Gedit$"]                     border normal
 
 focus_on_window_activation none
 
