@@ -343,6 +343,7 @@ for_window [class="^Evince$"]                    border normal
 for_window [class="^File-roller$"]               border normal
 for_window [class="^Totem$"]                     border normal
 for_window [class="^Gedit$"]                     border normal
+for_window [title="NeovimGtk"]                   border pixel 2
 
 focus_on_window_activation none
 
