@@ -61,6 +61,9 @@ floating_modifier $m
 
 floating_minimum_size 5 x 5
 
+focus_follows_mouse no
+popup_during_fullscreen smart
+
 # start a terminal
 # bindsym $m+Return exec i3-sensible-terminal
 bindsym $m+Return exec termite-dark.sh
