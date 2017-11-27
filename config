@@ -35,8 +35,11 @@ set $d2 HDMI-2
 set $d3 DVI-0
 
 # starting from 4th workspace because first three bounded to specific outputs
-set $new_workspace "i3-msg workspace -- $((`i3-msg -t get_workspaces | jq 'map(select(.num > 0).num) | [range(4; ([max+2, 5] | max))]-. | min'`))"
-# set $new_workspace "i3-msg workspace -- $((`i3-msg -t get_workspaces | jq 'map(select(.num > 0).num) | [range(1; max+2)]-. | min'`))"
+# set $new_workspace "i3-msg workspace -- $((`i3-msg -t get_workspaces | jq 'map(select(.num > 0).num) | [range(4; ([max+2, 5] | max))]-. | min'`))"
+set $new_workspace "i3-msg workspace -- $((`i3-msg -t get_workspaces | jq 'map(select(.num > 0).num) | [range(1; max+2)]-. | min'`))"
+
+# useful when another screen isn't used at the moment
+set $tmp_workspace "i3-msg rename workspace to tmp$(( ((RANDOM%9)+1) + (((RANDOM%9)+1)*10) + (((RANDOM%9)+1)*100) ))"
 
 set $exterminate "kill -9 -- $((`xdotool getactivewindow getwindowpid`))"
 
@@ -247,11 +250,17 @@ mode "do" {
 
   bindsym semicolon exec gmrun; mode "default"
   bindsym $a+semicolon exec dmenu_run; mode "default"
+
+  bindsym t exec $tmp_workspace; mode "default"
 }
 
 mode "workspace" {
   bindsym Return mode "default"
   bindsym Escape mode "default"
+
+  bindsym $m+u focus output $d1
+  bindsym $m+i focus output $d2
+  bindsym $m+o focus output $d3
 
   bindsym $a+u move workspace to output $d1
   bindsym $a+i move workspace to output $d2
@@ -310,18 +319,18 @@ bar {
   status_command unclechu-i3-status
 }
 
-workspace 2 output $d1
-workspace 1 output $d2
-workspace 3 output $d3
+# workspace 2 output $d1
+# workspace 1 output $d2
+# workspace 3 output $d3
 
-workspace music output $d1
+# workspace music output $d1
 assign [class="^Audacious$"] → music
 
-workspace video output $d1
+# workspace video output $d1
 assign [class="^smplayer$"] → video
 assign [class="^vlc$"] → video
 
-workspace im output $d3
+# workspace im output $d3
 assign [class="^Gajim$"]       → im
 assign [class="^Hexchat$"]     → im
 assign [class="^utox$"]        → im
@@ -332,8 +341,8 @@ assign [class="^Rambox$"]      → im
 assign [class="^Thunderbird$"] → im
 assign [class="^nheko"]        → im
 
-workspace main output $d2
-workspace code output $d2
+# workspace main output $d2
+# workspace code output $d2
 
 for_window [class="^qjackctl$"]                  floating enable
 for_window [title="^Place Cursor At"]            border none
