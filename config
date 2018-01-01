@@ -35,8 +35,8 @@ set $d2 DVI-0
 set $d3 DisplayPort-0
 
 # starting from 4th workspace because first three bounded to specific outputs
-# set $new_workspace "i3-msg workspace -- $((`i3-msg -t get_workspaces | jq 'map(select(.num > 0).num) | [range(4; ([max+2, 5] | max))]-. | min'`))"
-set $new_workspace "i3-msg workspace -- $((`i3-msg -t get_workspaces | jq 'map(select(.num > 0).num) | [range(1; max+2)]-. | min'`))"
+set $new_workspace "i3-msg workspace -- $((`i3-msg -t get_workspaces | jq 'map(select(.num > 0).num) | [range(4; ([max+2, 5] | max))]-. | min'`))"
+# set $new_workspace "i3-msg workspace -- $((`i3-msg -t get_workspaces | jq 'map(select(.num > 0).num) | [range(1; max+2)]-. | min'`))"
 
 # useful when another screen isn't used at the moment
 set $tmp_workspace "i3-msg rename workspace to tmp$(( ((RANDOM%9)+1) + (((RANDOM%9)+1)*10) + (((RANDOM%9)+1)*100) ))"
