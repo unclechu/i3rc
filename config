@@ -30,9 +30,9 @@ set $m Mod4
 set $a Mod1
 set $s Shift
 
-set $d1 DisplayPort-0
-set $d2 HDMI-2
-set $d3 DVI-0
+set $d1 HDMI-2
+set $d2 DVI-0
+set $d3 DisplayPort-0
 
 # starting from 4th workspace because first three bounded to specific outputs
 # set $new_workspace "i3-msg workspace -- $((`i3-msg -t get_workspaces | jq 'map(select(.num > 0).num) | [range(4; ([max+2, 5] | max))]-. | min'`))"
@@ -320,27 +320,25 @@ bar {
   tray_output $d2
 }
 
-# workspace 2 output $d1
-# workspace 1 output $d2
-# workspace 3 output $d3
+workspace 1 output $d1
+workspace 2 output $d2
+workspace 3 output $d3
 
 # workspace music output $d1
 assign [class="^Audacious$"] → music
 
 # workspace video output $d1
-assign [class="^smplayer$"] → video
-assign [class="^vlc$"] → video
+# assign [class="^smplayer$"] → video
+# assign [class="^vlc$"] → video
 
-# workspace im output $d3
-assign [class="^Gajim$"]       → im
-assign [class="^Hexchat$"]     → im
+# # workspace im output $d3
 assign [class="^utox$"]        → im
 assign [class="^qTox$"]        → im
 assign [class="^Gnome-ring$"]  → im
-assign [class="^Riot$"]        → im
-assign [class="^Rambox$"]      → im
-assign [class="^Thunderbird$"] → im
 assign [class="^nheko"]        → im
+assign [class="^Gajim$"]       → im
+assign [class="^Hexchat$"]     → im
+assign [class="^Thunderbird$"] → im
 
 # workspace main output $d2
 # workspace code output $d2
