@@ -89,9 +89,13 @@ bindsym $m+u focus output $d1
 bindsym $m+i focus output $d2
 bindsym $m+o focus output $d3
 
-bindsym $m+$a+u move container to output $d1
-bindsym $m+$a+i move container to output $d2
-bindsym $m+$a+o move container to output $d3
+bindsym $m+$a+u exec sh -c 'cursor-to-display.pl -d 1 && sleep .1 && place-cursor-at'
+bindsym $m+$a+i exec sh -c 'cursor-to-display.pl -d 2 && sleep .1 && place-cursor-at'
+bindsym $m+$a+o exec sh -c 'cursor-to-display.pl -d 3 && sleep .1 && place-cursor-at'
+
+bindsym $m+$s+u move container to output $d1
+bindsym $m+$s+i move container to output $d2
+bindsym $m+$s+o move container to output $d3
 
 bindsym Print exec gnome-screenshot
 bindsym $m+Print exec gnome-screenshot -w
@@ -231,9 +235,9 @@ mode "do" {
   bindsym $m+q exec $exterminate; mode "default"
   bindsym $m+i exec input.sh;     mode "default"
 
-  bindsym x exec cursor-to-display.sh 1
-  bindsym c exec cursor-to-display.sh 2
-  bindsym v exec cursor-to-display.sh 3
+  bindsym x exec cursor-to-display.pl -d 1
+  bindsym c exec cursor-to-display.pl -d 2
+  bindsym v exec cursor-to-display.pl -d 3
   bindsym z exec place-cursor-at; mode "default"
 
   bindsym a sticky toggle; mode "default"
@@ -317,7 +321,7 @@ bindsym $m+r mode "resize"
 
 bar {
   status_command unclechu-i3-status
-  tray_output $d2
+  tray_output $d3
 }
 
 workspace 1 output $d1
