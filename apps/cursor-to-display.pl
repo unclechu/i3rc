@@ -20,12 +20,9 @@ sub safe {
 
 chomp(my @displays = do {
   my $re = qr/ (\d+)x(\d+)\+(\d+)\+(\d+) /;
-  sort { %{$a}{x} <=> %{$b}{x} } map {
-    s/^.*$re.*$/$1 $2 $3 $4/;
-    my @vals = split ' ';
-    my %x = (w => $vals[0], h => $vals[1], x => $vals[2], y => $vals[3]);
-    \%x
-  } grep { /$re/ } safe `xrandr --current`
+  sort { %{$a}{x} <=> %{$b}{x} }
+  map { /$re/; my %x = (w => $1, h => $2, x => $3, y => $4); \%x }
+  grep { /$re/ } safe `xrandr --current`
 });
 
 GetOptions(
