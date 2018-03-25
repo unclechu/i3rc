@@ -368,6 +368,7 @@ for_window [class="^Termite"]           focus
 for_window [title="^Place Cursor At"]   focus
 for_window [class="^Gnome-calculator$"] focus
 for_window [class="^Zenity$"]           focus
+for_window [title="^GPaste GUI"]        focus
 
 # for_window [class="^Gajim$"]       exec timeout 2s invert-window-colors app gajim
 # for_window [class="^Thunderbird$"] exec timeout 2s invert-window-colors app thunderbird
