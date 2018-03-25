@@ -79,8 +79,8 @@ bindsym $m+$a+q kill
 bindsym $m+semicolon exec gmrun
 bindsym $m+$a+semicolon exec dmenu_run
 
-bindsym $m+apostrophe exec gpaste-zenity.sh
-bindsym $m+$a+apostrophe exec gpaste-zenity.sh -m=choose
+bindsym $m+apostrophe exec gpaste-gui.pl
+bindsym $m+$a+apostrophe exec gpaste-gui.pl -m=choose
 
 bindsym $m+n exec timeout 2s invert-window-colors
 bindsym $m+m exec place-cursor-at
