@@ -122,9 +122,9 @@ bindsym $m+k focus up
 bindsym $m+l focus right
 
 # alternatively, you can use the cursor keys:
-bindsym $m+Left focus left
-bindsym $m+Down focus down
-bindsym $m+Up focus up
+bindsym $m+Left  focus left
+bindsym $m+Down  focus down
+bindsym $m+Up    focus up
 bindsym $m+Right focus right
 
 # move focused window
@@ -134,9 +134,9 @@ bindsym $m+$a+k move up
 bindsym $m+$a+l move right
 
 # alternatively, you can use the cursor keys:
-bindsym $m+$a+Left move left
-bindsym $m+$a+Down move down
-bindsym $m+$a+Up move up
+bindsym $m+$a+Left  move left
+bindsym $m+$a+Down  move down
+bindsym $m+$a+Up    move up
 bindsym $m+$a+Right move right
 
 bindsym $m+c split v
@@ -362,13 +362,13 @@ for_window [title="NeovimGtk"]                   border pixel 2
 
 focus_on_window_activation none
 
-no_focus   [class=".*"]
-for_window [class="^Gmrun$"]            focus
-for_window [class="^Termite"]           focus
-for_window [title="^Place Cursor At"]   focus
-for_window [class="^Gnome-calculator$"] focus
-for_window [class="^Zenity$"]           focus
-for_window [title="^GPaste GUI"]        focus
+# no_focus   [class=".*"]
+# for_window [class="^Gmrun$"]            focus
+# for_window [class="^Termite"]           focus
+# for_window [title="^Place Cursor At"]   focus
+# for_window [class="^Gnome-calculator$"] focus
+# for_window [class="^Zenity$"]           focus
+# for_window [title="^GPaste GUI"]        focus
 
 # for_window [class="^Gajim$"]       exec timeout 2s invert-window-colors app gajim
 # for_window [class="^Thunderbird$"] exec timeout 2s invert-window-colors app thunderbird
