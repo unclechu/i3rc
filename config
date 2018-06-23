@@ -30,8 +30,8 @@ set $m Mod4
 set $a Mod1
 set $s Shift
 
-set $d1 HDMI-2
-set $d2 DVI-0
+set $d1 DVI-0
+set $d2 HDMI-2
 set $d3 DisplayPort-0
 
 # starting from 4th workspace because first three bounded to specific outputs
