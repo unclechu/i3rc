@@ -227,6 +227,26 @@ mode "resize" {
   bindsym Right resize grow width 10 px or 10 ppt
 }
 
+mode "positioning" {
+  bindsym Return mode "default"
+  bindsym Escape mode "default"
+
+  bindsym $m+h focus left
+  bindsym $m+j focus down
+  bindsym $m+k focus up
+  bindsym $m+l focus right
+
+  bindsym h move left
+  bindsym j move down
+  bindsym k move up
+  bindsym l move right
+
+  bindsym Left  move left
+  bindsym Down  move down
+  bindsym Up    move up
+  bindsym Right move right
+}
+
 mode "do" {
   bindsym Return mode "default"
   bindsym Escape mode "default"
@@ -318,6 +338,7 @@ mode "workspace" {
 bindsym $m+d mode "do"
 bindsym $m+g mode "workspace"
 bindsym $m+r mode "resize"
+bindsym $m+p mode "positioning"
 
 bar {
   status_command unclechu-i3-status
