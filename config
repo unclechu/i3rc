@@ -205,6 +205,8 @@ bindsym $m+$a+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do
 mode "resize" {
   bindsym Return mode "default"
   bindsym Escape mode "default"
+  bindsym $m+r mode "resize (big steps)"
+  bindsym $m+p mode "positioning"
 
   bindsym h resize shrink width 1 px or 1 ppt
   bindsym j resize grow height 1 px or 1 ppt
@@ -227,9 +229,37 @@ mode "resize" {
   bindsym Right resize grow width 10 px or 10 ppt
 }
 
+mode "resize (big steps)" {
+  bindsym Return mode "default"
+  bindsym Escape mode "default"
+  bindsym $m+r mode "resize"
+  bindsym $m+p mode "positioning"
+
+  bindsym h resize shrink width 10 px or 10 ppt
+  bindsym j resize grow height 10 px or 10 ppt
+  bindsym k resize shrink height 10 px or 10 ppt
+  bindsym l resize grow width 10 px or 10 ppt
+
+  bindsym $a+h resize shrink width 50 px or 50 ppt
+  bindsym $a+j resize grow height 50 px or 50 ppt
+  bindsym $a+k resize shrink height 50 px or 50 ppt
+  bindsym $a+l resize grow width 50 px or 50 ppt
+
+  bindsym $s+h resize shrink width 100 px or 100 ppt
+  bindsym $s+j resize grow height 100 px or 100 ppt
+  bindsym $s+k resize shrink height 100 px or 100 ppt
+  bindsym $s+l resize grow width 100 px or 100 ppt
+
+  bindsym Left resize shrink width 100 px or 100 ppt
+  bindsym Down resize grow height 100 px or 100 ppt
+  bindsym Up resize shrink height 100 px or 100 ppt
+  bindsym Right resize grow width 100 px or 100 ppt
+}
+
 mode "positioning" {
   bindsym Return mode "default"
   bindsym Escape mode "default"
+  bindsym $m+r mode "resize"
 
   bindsym $m+h focus left
   bindsym $m+j focus down
@@ -240,6 +270,16 @@ mode "positioning" {
   bindsym j move down
   bindsym k move up
   bindsym l move right
+
+  bindsym $a+h move left  ; move left
+  bindsym $a+j move down  ; move down
+  bindsym $a+k move up    ; move up
+  bindsym $a+l move right ; move right
+
+  bindsym $s+h move left  ; move left  ; move left  ; move left
+  bindsym $s+j move down  ; move down  ; move down  ; move down
+  bindsym $s+k move up    ; move up    ; move up    ; move up
+  bindsym $s+l move right ; move right ; move right ; move right
 
   bindsym Left  move left
   bindsym Down  move down
