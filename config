@@ -501,20 +501,20 @@ bar {
 # workspace 3 output $d3
 
 # workspace music output $d1
-assign [class="^Audacious$"] → music
+# assign [class="^Audacious$"] → music
 
 # workspace video output $d1
 # assign [class="^smplayer$"] → video
 # assign [class="^vlc$"] → video
 
 # # workspace im output $d3
-assign [class="^utox$"]        → im
-assign [class="^qTox$"]        → im
-assign [class="^Gnome-ring$"]  → im
-assign [class="^nheko"]        → im
-assign [class="^Gajim$"]       → im
-assign [class="^Hexchat$"]     → im
-assign [class="^Thunderbird$"] → im
+# assign [class="^utox$"]        → im
+# assign [class="^qTox$"]        → im
+# assign [class="^Gnome-ring$"]  → im
+# assign [class="^nheko"]        → im
+# assign [class="^Gajim$"]       → im
+# assign [class="^Hexchat$"]     → im
+# assign [class="^Thunderbird$"] → im
 
 # workspace main output $d2
 # workspace code output $d2
