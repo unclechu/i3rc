@@ -486,10 +486,50 @@ mode "workspace" {
   bindsym n exec $new_workspace; mode "default"
 }
 
+mode "mouse-cursor" {
+  bindsym Return mode "default"
+  bindsym Escape mode "default"
+
+  bindsym m exec place-cursor-at
+
+  bindsym h exec "xdotool mousemove_relative -- -10  0"
+  bindsym j exec "xdotool mousemove_relative --   0 +10"
+  bindsym k exec "xdotool mousemove_relative --   0 -10"
+  bindsym l exec "xdotool mousemove_relative -- +10  0"
+
+  bindsym $a+h exec "xdotool mousemove_relative -- -50  0"
+  bindsym $a+j exec "xdotool mousemove_relative --   0 +50"
+  bindsym $a+k exec "xdotool mousemove_relative --   0 -50"
+  bindsym $a+l exec "xdotool mousemove_relative -- +50  0"
+
+  bindsym $s+h exec "xdotool mousemove_relative -- -100  0"
+  bindsym $s+j exec "xdotool mousemove_relative --    0 +100"
+  bindsym $s+k exec "xdotool mousemove_relative --    0 -100"
+  bindsym $s+l exec "xdotool mousemove_relative -- +100  0"
+
+  bindsym x exec "xdotool mousedown 1 mouseup 1"
+  bindsym c exec "xdotool mousedown 2 mouseup 2"
+  bindsym v exec "xdotool mousedown 3 mouseup 3"
+
+  bindsym $m+h focus left
+  bindsym $m+j focus down
+  bindsym $m+k focus up
+  bindsym $m+l focus right
+
+  bindsym u focus output $d1
+  bindsym i focus output $d2
+  bindsym o focus output $d3
+
+  bindsym $s+u move workspace to output $d1
+  bindsym $s+i move workspace to output $d2
+  bindsym $s+o move workspace to output $d3
+}
+
 bindsym $m+d mode "do"
 bindsym $m+g mode "workspace"
 bindsym $m+r mode "resize"
 bindsym $m+p mode "positioning"
+bindsym $m+$a+m mode "mouse-cursor"
 
 bar {
   status_command unclechu-i3-status
