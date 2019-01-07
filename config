@@ -541,6 +541,7 @@ for_window [class="."]                 border pixel 1
 for_window [title="^Place Cursor At"]  border none
 for_window [class="^qjackctl$"]        floating enable
 for_window [title="^Android Emulator"] floating enable
+for_window [class="^Gmrun$"]           move position center
 
 focus_on_window_activation none
 
