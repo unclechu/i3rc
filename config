@@ -30,9 +30,9 @@ set $m Mod4
 set $a Mod1
 set $s Shift
 
-set $d1 DVI-0
-set $d2 HDMI-2
-set $d3 DisplayPort-0
+set $d1 i3-msg -t get_outputs | jq -r '[.[] | select(.active)] | sort_by(.rect.x, .rect.y) | .[0].name'
+set $d2 i3-msg -t get_outputs | jq -r '[.[] | select(.active)] | sort_by(.rect.x, .rect.y) | .[1].name'
+set $d3 i3-msg -t get_outputs | jq -r '[.[] | select(.active)] | sort_by(.rect.x, .rect.y) | .[2].name'
 
 # starting from 4th workspace because first three bounded to specific outputs
 # set $new_workspace "i3-msg workspace -- $((`i3-msg -t get_workspaces | jq 'map(select(.num > 0).num) | [range(4; ([max+2, 5] | max))]-. | min'`))"
@@ -85,17 +85,17 @@ bindsym $m+$a+apostrophe exec gpaste-gui.pl -m=choose
 bindsym $m+n exec timeout 2s invert-window-colors
 bindsym $m+m exec place-cursor-at
 
-bindsym $m+u focus output $d1
-bindsym $m+i focus output $d2
-bindsym $m+o focus output $d3
+bindsym $m+u exec "i3-msg focus output `$d1`"
+bindsym $m+i exec "i3-msg focus output `$d2`"
+bindsym $m+o exec "i3-msg focus output `$d3`"
 
 bindsym $m+$a+u exec sh -c 'cursor-to-display.pl -d 1 && sleep .1 && place-cursor-at'
 bindsym $m+$a+i exec sh -c 'cursor-to-display.pl -d 2 && sleep .1 && place-cursor-at'
 bindsym $m+$a+o exec sh -c 'cursor-to-display.pl -d 3 && sleep .1 && place-cursor-at'
 
-bindsym $m+$s+u move container to output $d1
-bindsym $m+$s+i move container to output $d2
-bindsym $m+$s+o move container to output $d3
+bindsym $m+$s+u exec "i3-msg move container to output `$d1`"
+bindsym $m+$s+i exec "i3-msg move container to output `$d2`"
+bindsym $m+$s+o exec "i3-msg move container to output `$d3`"
 
 bindsym Print exec gnome-screenshot
 bindsym $m+Print exec gnome-screenshot -w
@@ -433,13 +433,13 @@ mode "workspace" {
   bindsym Return mode "default"
   bindsym Escape mode "default"
 
-  bindsym $m+u focus output $d1
-  bindsym $m+i focus output $d2
-  bindsym $m+o focus output $d3
+  bindsym $m+u exec "i3-msg focus output `$d1`"
+  bindsym $m+i exec "i3-msg focus output `$d2`"
+  bindsym $m+o exec "i3-msg focus output `$d3`"
 
-  bindsym $a+u move workspace to output $d1
-  bindsym $a+i move workspace to output $d2
-  bindsym $a+o move workspace to output $d3
+  bindsym $a+u exec "i3-msg move workspace to output `$d1`"
+  bindsym $a+i exec "i3-msg move workspace to output `$d2`"
+  bindsym $a+o exec "i3-msg move workspace to output `$d3`"
 
   bindsym    i                   workspace im; mode "default"
   bindsym $s+i move container to workspace im; mode "default"
@@ -516,15 +516,16 @@ mode "mouse-cursor" {
   bindsym $m+k focus up
   bindsym $m+l focus right
 
-  bindsym u focus output $d1
-  bindsym i focus output $d2
-  bindsym o focus output $d3
+  bindsym u exec "i3-msg focus output `$d1`"
+  bindsym i exec "i3-msg focus output `$d2`"
+  bindsym o exec "i3-msg focus output `$d3`"
 
-  bindsym $s+u move workspace to output $d1
-  bindsym $s+i move workspace to output $d2
-  bindsym $s+o move workspace to output $d3
+  bindsym $s+u exec "i3-msg move workspace to output `$d1`"
+  bindsym $s+i exec "i3-msg move workspace to output `$d2`"
+  bindsym $s+o exec "i3-msg move workspace to output `$d3`"
 }
 
+# modes switching hotkeys
 bindsym $m+d mode "do"
 bindsym $m+g mode "workspace"
 bindsym $m+r mode "resize"
@@ -533,63 +534,14 @@ bindsym $m+$a+m mode "mouse-cursor"
 
 bar {
   status_command unclechu-i3-status
-  # tray_output $d3
+  tray_output primary
 }
 
-# workspace 1 output $d1
-# workspace 2 output $d2
-# workspace 3 output $d3
-
-# workspace music output $d1
-# assign [class="^Audacious$"] → music
-
-# workspace video output $d1
-# assign [class="^smplayer$"] → video
-# assign [class="^vlc$"] → video
-
-# # workspace im output $d3
-# assign [class="^utox$"]        → im
-# assign [class="^qTox$"]        → im
-# assign [class="^Gnome-ring$"]  → im
-# assign [class="^nheko"]        → im
-# assign [class="^Gajim$"]       → im
-# assign [class="^Hexchat$"]     → im
-# assign [class="^Thunderbird$"] → im
-
-# workspace main output $d2
-# workspace code output $d2
-
-for_window [class="^qjackctl$"]                  floating enable
-for_window [title="^Place Cursor At"]            border none
-for_window [class="^Audacious$" floating]        border pixel 2
-for_window [class="^Gnome-calculator$"]          border pixel 2
-for_window [class="^(Gnome-calendar|Nautilus)$"] border normal
-for_window [title="^Android Emulator"]           floating enable; border normal
-for_window [class="^Eog$"]                       border normal
-for_window [class="^Evince$"]                    border normal
-for_window [class="^File-roller$"]               border normal
-for_window [class="^Totem$"]                     border normal
-for_window [class="^Gedit$"]                     border normal
-for_window [title="NeovimGtk"]                   border pixel 2
+for_window [class="."]                 border pixel 1
+for_window [title="^Place Cursor At"]  border none
+for_window [class="^qjackctl$"]        floating enable
+for_window [title="^Android Emulator"] floating enable
 
 focus_on_window_activation none
-
-# no_focus   [class=".*"]
-# for_window [class="^Gmrun$"]            focus
-# for_window [class="^Termite"]           focus
-# for_window [title="^Place Cursor At"]   focus
-# for_window [class="^Gnome-calculator$"] focus
-# for_window [class="^Zenity$"]           focus
-# for_window [title="^GPaste GUI"]        focus
-
-# for_window [class="^Gajim$"]       exec timeout 2s invert-window-colors app gajim
-# for_window [class="^Thunderbird$"] exec timeout 2s invert-window-colors app thunderbird
-# for_window [class="^Audacious$"]   exec timeout 2s invert-window-colors app audacious
-# for_window [class="^nheko$"]       exec timeout 2s invert-window-colors app nheko
-# for_window [class="^Keepassx$"]    exec timeout 2s invert-window-colors app keepassx
-# for_window [class="^qBittorrent$"] exec timeout 2s invert-window-colors app qbittorrent
-# for_window [class="^Hexchat$"]     exec timeout 2s invert-window-colors app hexchat
-# for_window [class="^Doublecmd$"]   exec timeout 2s invert-window-colors app doublecmd
-# for_window [class="^Gmrun$"]       exec timeout 2s invert-window-colors app gmrun
 
 exec_always timeout 2s invert-window-colors app all
