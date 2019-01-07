@@ -1,30 +1,10 @@
-# i3 config file (v4)
-#
-# Please see http://i3wm.org/docs/userguide.html for a complete reference!
-
-# TODO rotate focus (focus-next)
-#      i3-msg -t get_tree
-#      xdotool search --all --onlyvisible --desktop --class
-
-# TODO rearrange numeric workspaces
-
-# TODO zenity-based app to
-#      1. fuzzy-select named workspace
-#      2. fuzzy-select window by title
-#      3. renaming workspaces
-#      4. marking windows
-#      5. navigating by marked windows
-
-# TODO notify applet to receive notifications
-
 # TODO realize how to prevent some apps from *real* fullscreen (like in xmonad)
 
-# TODO fork compton to patch negative-colors feature to make window colors also
-#      grayscale
-
-# TODO `exec invert-window-colors` on matched windows when focusing on
-#      them (because windows that are on currently hidden workspaces aren't
-#      handled)
+# TODO gui app: fuzzy-select named workspace
+# TODO gui app: fuzzy-select window by title
+# TODO gui app: renaming workspaces
+# TODO gui app: marking windows
+# TODO gui app: navigating by marked windows
 
 set $m Mod4
 set $a Mod1
@@ -34,8 +14,6 @@ set $d1 i3-msg -t get_outputs | jq -r '[.[] | select(.active)] | sort_by(.rect.x
 set $d2 i3-msg -t get_outputs | jq -r '[.[] | select(.active)] | sort_by(.rect.x, .rect.y) | .[1].name'
 set $d3 i3-msg -t get_outputs | jq -r '[.[] | select(.active)] | sort_by(.rect.x, .rect.y) | .[2].name'
 
-# starting from 4th workspace because first three bounded to specific outputs
-# set $new_workspace "i3-msg workspace -- $((`i3-msg -t get_workspaces | jq 'map(select(.num > 0).num) | [range(4; ([max+2, 5] | max))]-. | min'`))"
 set $new_workspace "i3-msg workspace -- $((`i3-msg -t get_workspaces | jq 'map(select(.num > 0).num) | [range(1; max+2)]-. | min'`))"
 
 # useful when another screen isn't used at the moment
@@ -51,13 +29,6 @@ font pango:Hack 9
 # This font is widely installed, provides lots of unicode glyphs, right-to-left
 # text rendering and scalability on retina/hidpi displays (thanks to pango).
 #font pango:DejaVu Sans Mono 8
-
-# Before i3 v4.8, we used to recommend this one as the default:
-# font -misc-fixed-medium-r-normal--13-120-75-75-C-70-iso10646-1
-# The font above is very space-efficient, that is, it looks good, sharp and
-# clear in small sizes. However, its unicode glyph coverage is limited, the old
-# X core fonts rendering does not support right-to-left and this being a bitmap
-# font, it doesn’t scale on retina/hidpi displays.
 
 # Use Mouse+$m to drag floating windows to their wanted position
 floating_modifier $m
