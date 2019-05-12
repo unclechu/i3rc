@@ -47,8 +47,8 @@ bindsym $m+$a+Return exec termite-light.sh
 bindsym $m+$a+q kill
 
 # also: i3-dmenu-desktop
-bindsym $m+h exec gmrun
-bindsym $m+$a+h exec dmenu_run
+bindsym $m+semicolon exec gmrun
+bindsym $m+$a+semicolon exec dmenu_run
 
 bindsym $m+apostrophe exec gpaste-gui.pl
 bindsym $m+$a+apostrophe exec gpaste-gui.pl -m=choose
@@ -87,10 +87,10 @@ bindsym XF86AudioLowerVolume exec pamng.sh dec
 bindsym XF86AudioRaiseVolume exec pamng.sh inc
 
 # change focus
-bindsym $m+j         focus left
-bindsym $m+k         focus down
-bindsym $m+l         focus up
-bindsym $m+semicolon focus right
+bindsym $m+h focus left
+bindsym $m+j focus down
+bindsym $m+k focus up
+bindsym $m+l focus right
 
 # alternatively, you can use the cursor keys:
 bindsym $m+Left  focus left
@@ -99,10 +99,10 @@ bindsym $m+Up    focus up
 bindsym $m+Right focus right
 
 # move focused window
-bindsym $m+$a+j         move left
-bindsym $m+$a+k         move down
-bindsym $m+$a+l         move up
-bindsym $m+$a+semicolon move right
+bindsym $m+$a+h move left
+bindsym $m+$a+j move down
+bindsym $m+$a+k move up
+bindsym $m+$a+l move right
 
 # alternatively, you can use the cursor keys:
 bindsym $m+$a+Left  move left
@@ -179,25 +179,25 @@ mode "resize" {
   bindsym $m+r   mode "resize (big steps)"
   bindsym $m+p   mode "positioning"
 
-  bindsym $m+j         focus left
-  bindsym $m+k         focus down
-  bindsym $m+l         focus up
-  bindsym $m+semicolon focus right
+  bindsym $m+h focus left
+  bindsym $m+j focus down
+  bindsym $m+k focus up
+  bindsym $m+l focus right
 
-  bindsym j         resize shrink width  1 px or 1 ppt
-  bindsym k         resize grow   height 1 px or 1 ppt
-  bindsym l         resize shrink height 1 px or 1 ppt
-  bindsym semicolon resize grow   width  1 px or 1 ppt
+  bindsym h resize shrink width  1 px or 1 ppt
+  bindsym j resize grow   height 1 px or 1 ppt
+  bindsym k resize shrink height 1 px or 1 ppt
+  bindsym l resize grow   width  1 px or 1 ppt
 
-  bindsym $a+j         resize shrink width  5 px or 5 ppt
-  bindsym $a+k         resize grow   height 5 px or 5 ppt
-  bindsym $a+l         resize shrink height 5 px or 5 ppt
-  bindsym $a+semicolon resize grow   width  5 px or 5 ppt
+  bindsym $a+h resize shrink width  5 px or 5 ppt
+  bindsym $a+j resize grow   height 5 px or 5 ppt
+  bindsym $a+k resize shrink height 5 px or 5 ppt
+  bindsym $a+l resize grow   width  5 px or 5 ppt
 
-  bindsym $s+j         resize shrink width  10 px or 10 ppt
-  bindsym $s+k         resize grow   height 10 px or 10 ppt
-  bindsym $s+l         resize shrink height 10 px or 10 ppt
-  bindsym $s+semicolon resize grow   width  10 px or 10 ppt
+  bindsym $s+h resize shrink width  10 px or 10 ppt
+  bindsym $s+j resize grow   height 10 px or 10 ppt
+  bindsym $s+k resize shrink height 10 px or 10 ppt
+  bindsym $s+l resize grow   width  10 px or 10 ppt
 
   bindsym Left  resize shrink width  10 px or 10 ppt
   bindsym Down  resize grow   height 10 px or 10 ppt
@@ -211,25 +211,25 @@ mode "resize (big steps)" {
   bindsym $m+r   mode "resize"
   bindsym $m+p   mode "positioning (big steps)"
 
-  bindsym $m+j         focus left
-  bindsym $m+k         focus down
-  bindsym $m+l         focus up
-  bindsym $m+semicolon focus right
+  bindsym $m+h focus left
+  bindsym $m+j focus down
+  bindsym $m+k focus up
+  bindsym $m+l focus right
 
-  bindsym j         resize shrink width  10 px or 10 ppt
-  bindsym k         resize grow   height 10 px or 10 ppt
-  bindsym l         resize shrink height 10 px or 10 ppt
-  bindsym semicolon resize grow   width  10 px or 10 ppt
+  bindsym h resize shrink width  10 px or 10 ppt
+  bindsym j resize grow   height 10 px or 10 ppt
+  bindsym k resize shrink height 10 px or 10 ppt
+  bindsym l resize grow   width  10 px or 10 ppt
 
-  bindsym $a+j         resize shrink width  50 px or 50 ppt
-  bindsym $a+k         resize grow   height 50 px or 50 ppt
-  bindsym $a+l         resize shrink height 50 px or 50 ppt
-  bindsym $a+semicolon resize grow   width  50 px or 50 ppt
+  bindsym $a+h resize shrink width  50 px or 50 ppt
+  bindsym $a+j resize grow   height 50 px or 50 ppt
+  bindsym $a+k resize shrink height 50 px or 50 ppt
+  bindsym $a+l resize grow   width  50 px or 50 ppt
 
-  bindsym $s+j         resize shrink width  100 px or 100 ppt
-  bindsym $s+k         resize grow   height 100 px or 100 ppt
-  bindsym $s+l         resize shrink height 100 px or 100 ppt
-  bindsym $s+semicolon resize grow   width  100 px or 100 ppt
+  bindsym $s+h resize shrink width  100 px or 100 ppt
+  bindsym $s+j resize grow   height 100 px or 100 ppt
+  bindsym $s+k resize shrink height 100 px or 100 ppt
+  bindsym $s+l resize grow   width  100 px or 100 ppt
 
   bindsym Left  resize shrink width  100 px or 100 ppt
   bindsym Down  resize grow   height 100 px or 100 ppt
@@ -243,25 +243,25 @@ mode "positioning" {
   bindsym $m+r   mode "resize"
   bindsym $m+p   mode "positioning (big steps)"
 
-  bindsym $m+j         focus left
-  bindsym $m+k         focus down
-  bindsym $m+l         focus up
-  bindsym $m+semicolon focus right
+  bindsym $m+h focus left
+  bindsym $m+j focus down
+  bindsym $m+k focus up
+  bindsym $m+l focus right
 
-  bindsym j         move left
-  bindsym k         move down
-  bindsym l         move up
-  bindsym semicolon move right
+  bindsym h move left
+  bindsym j move down
+  bindsym k move up
+  bindsym l move right
 
-  bindsym $a+j         move left  ; move left
-  bindsym $a+k         move down  ; move down
-  bindsym $a+l         move up    ; move up
-  bindsym $a+semicolon move right ; move right
+  bindsym $a+h move left  ; move left
+  bindsym $a+j move down  ; move down
+  bindsym $a+k move up    ; move up
+  bindsym $a+l move right ; move right
 
-  bindsym $s+j         move left  ; move left  ; move left  ; move left
-  bindsym $s+k         move down  ; move down  ; move down  ; move down
-  bindsym $s+l         move up    ; move up    ; move up    ; move up
-  bindsym $s+semicolon move right ; move right ; move right ; move right
+  bindsym $s+h move left  ; move left  ; move left  ; move left
+  bindsym $s+j move down  ; move down  ; move down  ; move down
+  bindsym $s+k move up    ; move up    ; move up    ; move up
+  bindsym $s+l move right ; move right ; move right ; move right
 
   bindsym Left  move left
   bindsym Down  move down
@@ -275,65 +275,65 @@ mode "positioning (big steps)" {
   bindsym $m+r   mode "resize (big steps)"
   bindsym $m+p   mode "positioning"
 
-  bindsym $m+j         focus left
-  bindsym $m+k         focus down
-  bindsym $m+l         focus up
-  bindsym $m+semicolon focus right
+  bindsym $m+h focus left
+  bindsym $m+j focus down
+  bindsym $m+k focus up
+  bindsym $m+l focus right
 
-  bindsym j         move left  ; move left  ; move left  ; move left
-  bindsym k         move down  ; move down  ; move down  ; move down
-  bindsym l         move up    ; move up    ; move up    ; move up
-  bindsym semicolon move right ; move right ; move right ; move right
+  bindsym h move left  ; move left  ; move left  ; move left
+  bindsym j move down  ; move down  ; move down  ; move down
+  bindsym k move up    ; move up    ; move up    ; move up
+  bindsym l move right ; move right ; move right ; move right
 
-  bindsym $a+j         move left  ; move left  ; move left  ; move left  ; \
-                       move left  ; move left  ; move left  ; move left  ; \
-                       move left  ; move left  ; move left  ; move left  ; \
-                       move left  ; move left  ; move left  ; move left
-  bindsym $a+k         move down  ; move down  ; move down  ; move down  ; \
-                       move down  ; move down  ; move down  ; move down  ; \
-                       move down  ; move down  ; move down  ; move down  ; \
-                       move down  ; move down  ; move down  ; move down
-  bindsym $a+l         move up    ; move up    ; move up    ; move up    ; \
-                       move up    ; move up    ; move up    ; move up    ; \
-                       move up    ; move up    ; move up    ; move up    ; \
-                       move up    ; move up    ; move up    ; move up
-  bindsym $a+semicolon move right ; move right ; move right ; move right ; \
-                       move right ; move right ; move right ; move right ; \
-                       move right ; move right ; move right ; move right ; \
-                       move right ; move right ; move right ; move right
+  bindsym $a+h move left  ; move left  ; move left  ; move left  ; \
+               move left  ; move left  ; move left  ; move left  ; \
+               move left  ; move left  ; move left  ; move left  ; \
+               move left  ; move left  ; move left  ; move left
+  bindsym $a+j move down  ; move down  ; move down  ; move down  ; \
+               move down  ; move down  ; move down  ; move down  ; \
+               move down  ; move down  ; move down  ; move down  ; \
+               move down  ; move down  ; move down  ; move down
+  bindsym $a+k move up    ; move up    ; move up    ; move up    ; \
+               move up    ; move up    ; move up    ; move up    ; \
+               move up    ; move up    ; move up    ; move up    ; \
+               move up    ; move up    ; move up    ; move up
+  bindsym $a+l move right ; move right ; move right ; move right ; \
+               move right ; move right ; move right ; move right ; \
+               move right ; move right ; move right ; move right ; \
+               move right ; move right ; move right ; move right
 
-  bindsym $s+j         move left  ; move left  ; move left  ; move left  ; \
-                       move left  ; move left  ; move left  ; move left  ; \
-                       move left  ; move left  ; move left  ; move left  ; \
-                       move left  ; move left  ; move left  ; move left  ; \
-                       move left  ; move left  ; move left  ; move left  ; \
-                       move left  ; move left  ; move left  ; move left  ; \
-                       move left  ; move left  ; move left  ; move left  ; \
-                       move left  ; move left  ; move left  ; move left
-  bindsym $s+k         move down  ; move down  ; move down  ; move down  ; \
-                       move down  ; move down  ; move down  ; move down  ; \
-                       move down  ; move down  ; move down  ; move down  ; \
-                       move down  ; move down  ; move down  ; move down  ; \
-                       move down  ; move down  ; move down  ; move down  ; \
-                       move down  ; move down  ; move down  ; move down  ; \
-                       move down  ; move down  ; move down  ; move down  ; \
-                       move down  ; move down  ; move down  ; move down
-  bindsym $s+l         move up    ; move up    ; move up    ; move up    ; \
-                       move up    ; move up    ; move up    ; move up    ; \
-                       move up    ; move up    ; move up    ; move up    ; \
-                       move up    ; move up    ; move up    ; move up    ; \
-                       move up    ; move up    ; move up    ; move up    ; \
-                       move up    ; move up    ; move up    ; move up    ; \
-                       move up    ; move up    ; move up    ; move up    ; \
-                       move up    ; move up    ; move up    ; move up
-  bindsym $s+semicolon move right ; move right ; move right ; move right ; \
-                       move right ; move right ; move right ; move right ; \
-                       move right ; move right ; move right ; move right ; \
-                       move right ; move right ; move right ; move right ; \
-                       move right ; move right ; move right ; move right ; \
-                       move right ; move right ; move right ; move right ; \
-                       move right ; move right ; move right ; move right ; \
-                       move right ; move right ; move right ; move right
+  bindsym $s+h move left  ; move left  ; move left  ; move left  ; \
+               move left  ; move left  ; move left  ; move left  ; \
+               move left  ; move left  ; move left  ; move left  ; \
+               move left  ; move left  ; move left  ; move left  ; \
+               move left  ; move left  ; move left  ; move left  ; \
+               move left  ; move left  ; move left  ; move left  ; \
+               move left  ; move left  ; move left  ; move left  ; \
+               move left  ; move left  ; move left  ; move left
+  bindsym $s+j move down  ; move down  ; move down  ; move down  ; \
+               move down  ; move down  ; move down  ; move down  ; \
+               move down  ; move down  ; move down  ; move down  ; \
+               move down  ; move down  ; move down  ; move down  ; \
+               move down  ; move down  ; move down  ; move down  ; \
+               move down  ; move down  ; move down  ; move down  ; \
+               move down  ; move down  ; move down  ; move down  ; \
+               move down  ; move down  ; move down  ; move down
+  bindsym $s+k move up    ; move up    ; move up    ; move up    ; \
+               move up    ; move up    ; move up    ; move up    ; \
+               move up    ; move up    ; move up    ; move up    ; \
+               move up    ; move up    ; move up    ; move up    ; \
+               move up    ; move up    ; move up    ; move up    ; \
+               move up    ; move up    ; move up    ; move up    ; \
+               move up    ; move up    ; move up    ; move up    ; \
+               move up    ; move up    ; move up    ; move up
+  bindsym $s+l move right ; move right ; move right ; move right ; \
+               move right ; move right ; move right ; move right ; \
+               move right ; move right ; move right ; move right ; \
+               move right ; move right ; move right ; move right ; \
+               move right ; move right ; move right ; move right ; \
+               move right ; move right ; move right ; move right ; \
+               move right ; move right ; move right ; move right ; \
+               move right ; move right ; move right ; move right
 
   bindsym Left  move left  ; move left  ; move left  ; move left  ; \
                 move left  ; move left  ; move left  ; move left  ; \
@@ -394,8 +394,8 @@ mode "do" {
 
   bindsym n exec timeout 2s invert-window-colors app all; mode "default"
 
-  bindsym h exec gmrun; mode "default"
-  bindsym $a+h exec dmenu_run; mode "default"
+  bindsym semicolon exec gmrun; mode "default"
+  bindsym $a+semicolon exec dmenu_run; mode "default"
 
   bindsym t exec $tmp_workspace; mode "default"
 }
@@ -463,29 +463,29 @@ mode "mouse-cursor" {
 
   bindsym m exec place-cursor-at
 
-  bindsym j         exec "xdotool mousemove_relative -- -10  0"
-  bindsym k         exec "xdotool mousemove_relative --   0 +10"
-  bindsym l         exec "xdotool mousemove_relative --   0 -10"
-  bindsym semicolon exec "xdotool mousemove_relative -- +10  0"
+  bindsym h exec "xdotool mousemove_relative -- -10  0"
+  bindsym j exec "xdotool mousemove_relative --   0 +10"
+  bindsym k exec "xdotool mousemove_relative --   0 -10"
+  bindsym l exec "xdotool mousemove_relative -- +10  0"
 
-  bindsym $a+j         exec "xdotool mousemove_relative -- -50  0"
-  bindsym $a+k         exec "xdotool mousemove_relative --   0 +50"
-  bindsym $a+l         exec "xdotool mousemove_relative --   0 -50"
-  bindsym $a+semicolon exec "xdotool mousemove_relative -- +50  0"
+  bindsym $a+h exec "xdotool mousemove_relative -- -50  0"
+  bindsym $a+j exec "xdotool mousemove_relative --   0 +50"
+  bindsym $a+k exec "xdotool mousemove_relative --   0 -50"
+  bindsym $a+l exec "xdotool mousemove_relative -- +50  0"
 
-  bindsym $s+j         exec "xdotool mousemove_relative -- -100  0"
-  bindsym $s+k         exec "xdotool mousemove_relative --    0 +100"
-  bindsym $s+l         exec "xdotool mousemove_relative --    0 -100"
-  bindsym $s+semicolon exec "xdotool mousemove_relative -- +100  0"
+  bindsym $s+h exec "xdotool mousemove_relative -- -100  0"
+  bindsym $s+j exec "xdotool mousemove_relative --    0 +100"
+  bindsym $s+k exec "xdotool mousemove_relative --    0 -100"
+  bindsym $s+l exec "xdotool mousemove_relative -- +100  0"
 
   bindsym x exec "xdotool mousedown 3 mouseup 3"
   bindsym c exec "xdotool mousedown 2 mouseup 2"
   bindsym v exec "xdotool mousedown 1 mouseup 1"
 
-  bindsym $m+j         focus left
-  bindsym $m+k         focus down
-  bindsym $m+l         focus up
-  bindsym $m+semicolon focus right
+  bindsym $m+h focus left
+  bindsym $m+j focus down
+  bindsym $m+k focus up
+  bindsym $m+l focus right
 
   bindsym u exec "i3-msg focus output `$d1`"
   bindsym i exec "i3-msg focus output `$d2`"
