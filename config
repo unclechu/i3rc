@@ -483,9 +483,22 @@ mode "mouse-cursor" {
   bindsym $s+k exec "xdotool mousemove_relative --    0 -100"
   bindsym $s+l exec "xdotool mousemove_relative -- +100  0"
 
-  bindsym x exec "xdotool mousedown 3 mouseup 3"
-  bindsym c exec "xdotool mousedown 2 mouseup 2"
-  bindsym v exec "xdotool mousedown 1 mouseup 1"
+  bindsym m exec place-cursor-at
+
+  bindsym q exec "place-cursor-at LT"
+  bindsym a exec "place-cursor-at LC"
+  bindsym z exec "place-cursor-at LB"
+  bindsym w exec "place-cursor-at CT"
+  bindsym s exec "place-cursor-at CC"
+  bindsym x exec "place-cursor-at CB"
+  bindsym e exec "place-cursor-at RT"
+  bindsym d exec "place-cursor-at RC"
+  bindsym c exec "place-cursor-at RB"
+
+  # one column after "place-cursor-at" keys
+  bindsym r exec "xdotool mousedown 2 mouseup 2"
+  bindsym f exec "xdotool mousedown 1 mouseup 1"
+  bindsym v exec "xdotool mousedown 3 mouseup 3"
 
   bindsym $m+h focus left
   bindsym $m+j focus down
