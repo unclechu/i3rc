@@ -88,8 +88,10 @@ bindsym XF86AudioRaiseVolume exec pamng.sh inc
 
 # screen-backlight.sh isn't some existing tool,
 # you just implement it by yourself and add it to your $PATH.
-bindsym XF86MonBrightnessUp   exec screen-backlight.sh +3%
-bindsym XF86MonBrightnessDown exec screen-backlight.sh -3%
+bindsym XF86MonBrightnessUp      exec screen-backlight.sh +1%
+bindsym $s+XF86MonBrightnessUp   exec screen-backlight.sh +5%
+bindsym XF86MonBrightnessDown    exec screen-backlight.sh -1%
+bindsym $s+XF86MonBrightnessDown exec screen-backlight.sh -5%
 
 # change focus
 bindsym $m+h focus left
