@@ -81,17 +81,19 @@ bindsym XF86AudioStop exec audacious --stop
 
 bindsym XF86Calculator exec gnome-calculator
 
-bindsym $m+XF86AudioMute exec pamng.sh reset
-bindsym XF86AudioMute exec pamng.sh mute
-bindsym XF86AudioLowerVolume exec pamng.sh dec
-bindsym XF86AudioRaiseVolume exec pamng.sh inc
+bindsym $m+XF86AudioMute        exec pamng.sh reset
+bindsym XF86AudioMute           exec pamng.sh mute
+bindsym XF86AudioLowerVolume    exec pamng.sh dec
+bindsym $s+XF86AudioLowerVolume exec pamng.sh dec '5.0dB'
+bindsym XF86AudioRaiseVolume    exec pamng.sh inc
+bindsym $s+XF86AudioRaiseVolume exec pamng.sh inc '5.0dB'
 
 # screen-backlight.sh isn't some existing tool,
 # you just implement it by yourself and add it to your $PATH.
-bindsym XF86MonBrightnessUp      exec screen-backlight.sh +1%
-bindsym $s+XF86MonBrightnessUp   exec screen-backlight.sh +5%
 bindsym XF86MonBrightnessDown    exec screen-backlight.sh -1%
 bindsym $s+XF86MonBrightnessDown exec screen-backlight.sh -5%
+bindsym XF86MonBrightnessUp      exec screen-backlight.sh +1%
+bindsym $s+XF86MonBrightnessUp   exec screen-backlight.sh +5%
 
 # change focus
 bindsym $m+h focus left

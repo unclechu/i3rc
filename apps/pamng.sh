@@ -13,12 +13,14 @@ case "$1" in
 		pactl set-sink-mute "$SINK" toggle
 		;;
 	inc)
-		pactl set-sink-mute "$SINK" false
-		pactl set-sink-volume "$SINK" '+1.0dB'
+		x=$([[ -n $2 ]] && printf -- '+%s' "$2" || printf -- '+1.0dB')
+		pactl set-sink-mute   "$SINK" false
+		pactl set-sink-volume "$SINK" "$(printf '%s' "$x")"
 		;;
 	dec)
-		pactl set-sink-mute "$SINK" false
-		pactl set-sink-volume "$SINK" '-1.0dB'
+		x=$([[ -n $2 ]] && printf -- '-%s' "$2" || printf -- '-1.0dB')
+		pactl set-sink-mute   "$SINK" false
+		pactl set-sink-volume "$SINK" "$(printf '%s' "$x")"
 		;;
 
 	reset)
