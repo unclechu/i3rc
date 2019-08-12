@@ -183,7 +183,6 @@ bindsym $m+$a+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do
 
 # resize window (you can also use the mouse for that)
 mode "resize" {
-  bindsym Return mode "default"
   bindsym Escape mode "default"
   bindsym $m+r   mode "resize (big steps)"
   bindsym $m+p   mode "positioning"
@@ -215,7 +214,6 @@ mode "resize" {
 }
 
 mode "resize (big steps)" {
-  bindsym Return mode "default"
   bindsym Escape mode "default"
   bindsym $m+r   mode "resize"
   bindsym $m+p   mode "positioning (big steps)"
@@ -247,7 +245,6 @@ mode "resize (big steps)" {
 }
 
 mode "positioning" {
-  bindsym Return mode "default"
   bindsym Escape mode "default"
   bindsym $m+r   mode "resize"
   bindsym $m+p   mode "positioning (big steps)"
@@ -279,7 +276,6 @@ mode "positioning" {
 }
 
 mode "positioning (big steps)" {
-  bindsym Return mode "default"
   bindsym Escape mode "default"
   bindsym $m+r   mode "resize (big steps)"
   bindsym $m+p   mode "positioning"
@@ -379,7 +375,6 @@ mode "positioning (big steps)" {
 }
 
 mode "do" {
-  bindsym Return mode "default"
   bindsym Escape mode "default"
 
   bindsym $m+r exec autostart.sh; mode "default"
@@ -410,7 +405,6 @@ mode "do" {
 }
 
 mode "workspace" {
-  bindsym Return mode "default"
   bindsym Escape mode "default"
 
   bindsym $m+u exec "i3-msg focus output `$d1`"
@@ -467,10 +461,7 @@ mode "workspace" {
 }
 
 mode "mouse-cursor" {
-  bindsym Return mode "default"
   bindsym Escape mode "default"
-
-  bindsym m exec place-cursor-at
 
   bindsym h exec "xdotool mousemove_relative -- -10  0"
   bindsym j exec "xdotool mousemove_relative --   0 +10"
@@ -486,8 +477,6 @@ mode "mouse-cursor" {
   bindsym $s+j exec "xdotool mousemove_relative --    0 +100"
   bindsym $s+k exec "xdotool mousemove_relative --    0 -100"
   bindsym $s+l exec "xdotool mousemove_relative -- +100  0"
-
-  bindsym m exec place-cursor-at
 
   bindsym q exec "place-cursor-at LT"
   bindsym a exec "place-cursor-at LC"
