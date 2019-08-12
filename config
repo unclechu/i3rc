@@ -490,8 +490,11 @@ mode "mouse-cursor" {
 
   # one column after "place-cursor-at" keys
   bindsym r exec "xdotool mousedown 2 mouseup 2"
+  bindsym $m+r exec "xdotool mousedown 2 mouseup 2"; mode "default"
   bindsym f exec "xdotool mousedown 1 mouseup 1"
+  bindsym $m+f exec "xdotool mousedown 1 mouseup 1"; mode "default"
   bindsym v exec "xdotool mousedown 3 mouseup 3"
+  bindsym $m+v exec "xdotool mousedown 3 mouseup 3"; mode "default"
 
   bindsym $m+h focus left
   bindsym $m+j focus down
