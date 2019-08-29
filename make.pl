@@ -24,7 +24,7 @@ if ($ARGV[0] eq 'create-symlink') {
 
   chdir "$__dirname/apps/invert-window-colors-nim/";
   runx qw(nimble install -y);
-  runx qw(nim c -o:invert-window-colors --threads:on main.nim);
+  runx qw(nim c -o:invert-window-colors --threads:on -d:nimOldCaseObjects main.nim);
 
 } elsif ($ARGV[0] eq 'clean-invert-window-colors') {
 
