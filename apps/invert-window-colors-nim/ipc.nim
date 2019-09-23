@@ -40,11 +40,11 @@ proc setState*(wnd: Maybe[uint32]; state: State, failProtect: bool = false) =
       let reply = dbusReq( "win_get", curWnd.asDbusValue
                          , "invert_color_force".asDbusValue )
       var iter = reply.iterate
-      newState = iter.unpackCurrent(uint16) != 1
+      newState = iter.unpackCurrent(uint32) != 1
       iter.ensureEnd; reply.close
 
     dbusReq( "win_set", curWnd.asDbusValue, "invert_color_force".asDbusValue
-           , uint16(newState).asDbusValue ).close
+           , uint32(newState).asDbusValue ).close
   except DbusRemoteException:
     if failProtect:
       stderr.writeline(
