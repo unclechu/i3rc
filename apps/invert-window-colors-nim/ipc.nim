@@ -34,17 +34,34 @@ proc setState*(wnd: Maybe[uint32]; state: State, failProtect: bool = false) =
   var newState: bool
 
   try:
+    var isOldCompton: bool = false
+
     if state != toggle:
       newState = state == State.on
+
     else:
       let reply = dbusReq( "win_get", curWnd.asDbusValue
                          , "invert_color_force".asDbusValue )
       var iter = reply.iterate
-      newState = iter.unpackCurrent(uint32) != 1
-      iter.ensureEnd; reply.close
+
+      try:
+        newState = iter.unpackCurrent(uint32) != 1
+      except FieldError:
+        isOldCompton = true
+        newState = iter.unpackCurrent(uint16) != 1
+
+      iter.ensureEnd
+      reply.close
 
     dbusReq( "win_set", curWnd.asDbusValue, "invert_color_force".asDbusValue
-           , uint32(newState).asDbusValue ).close
+
+           , if not isOldCompton:
+               uint32(newState).asDbusValue
+             else:
+               uint16(newState).asDbusValue
+
+           ).close
+
   except DbusRemoteException:
     if failProtect:
       stderr.writeline(
