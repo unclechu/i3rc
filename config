@@ -39,9 +39,8 @@ focus_follows_mouse no
 popup_during_fullscreen smart
 
 # start a terminal
-# bindsym $m+Return exec i3-sensible-terminal
-bindsym $m+Return exec termite-dark.sh
-bindsym $m+$a+Return exec termite-light.sh
+bindsym $m+Return exec termite-dark || termite || i3-sensible-terminal
+bindsym $m+$a+Return exec termite-light || termite || i3-sensible-terminal
 
 # kill focused window
 bindsym $m+$a+q kill
