@@ -45,9 +45,6 @@ popup_during_fullscreen smart
 bindsym $m+Return    exec $terminal_dark
 bindsym $m+$a+Return exec $terminal_light
 
-# kill focused window
-bindsym $m+$a+q kill
-
 # also: i3-dmenu-desktop
 bindsym $m+semicolon exec gmrun
 bindsym $m+$a+semicolon exec dmenu_run
@@ -379,8 +376,14 @@ mode "positioning (big steps)" {
 mode "do" {
   bindsym Escape mode "default"
 
-  bindsym $m+r exec autostart.sh; mode "default"
+  # close focused window
+  bindsym $m+c kill; mode "default"
+  bindsym $s+c kill
+  # send SIGKILL to focused window
   bindsym $m+q exec $exterminate; mode "default"
+  bindsym $s+q exec $exterminate
+
+  bindsym $m+r exec autostart.sh; mode "default"
   bindsym $m+i exec input.sh;     mode "default"
 
   bindsym x exec cursor-to-display.pl -d 1
