@@ -138,7 +138,7 @@ bindsym $m+space focus mode_toggle
 # focus the parent container
 bindsym $m+a focus parent
 # focus the child container
-bindsym $m+$a+a focus child
+bindsym $m+q focus child
 
 # switch to workspace
 bindsym $m+1 workspace 1
