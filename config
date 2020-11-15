@@ -175,10 +175,6 @@ bindsym $m+period move workspace to right
 
 # reload the configuration file
 bindsym $m+$a+c reload
-# restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
-bindsym $m+$a+r restart
-# exit i3 (logs you out of your X session)
-bindsym $m+$a+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"
 
 # resize window (you can also use the mouse for that)
 mode "resize" {
@@ -383,7 +379,13 @@ mode "do" {
   bindsym $m+q exec $exterminate; mode "default"
   bindsym $s+q exec $exterminate
 
-  bindsym $m+r exec autostart.sh; mode "default"
+  # restart i3 in-place
+  # (preserves your layout/session, can be used to upgrade i3)
+  bindsym $m+r restart
+  # exit i3 (logs you out of your X session)
+  bindsym $m+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"
+
+  bindsym $m+a exec autostart.sh; mode "default"
   bindsym $m+i exec input.sh;     mode "default"
 
   bindsym x exec cursor-to-display.pl -d 1
