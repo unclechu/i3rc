@@ -182,6 +182,9 @@ mode "resize" {
   bindsym $m+r   mode "resize (big steps)"
   bindsym $m+p   mode "positioning"
 
+  bindsym $m+$a+space mode "default" ; floating toggle
+  bindsym $m+space    mode "default" ; focus mode_toggle
+
   bindsym $m+h focus left
   bindsym $m+j focus down
   bindsym $m+k focus up
@@ -212,6 +215,9 @@ mode "resize (big steps)" {
   bindsym Escape mode "default"
   bindsym $m+r   mode "resize"
   bindsym $m+p   mode "positioning (big steps)"
+
+  bindsym $m+$a+space mode "default" ; floating toggle
+  bindsym $m+space    mode "default" ; focus mode_toggle
 
   bindsym $m+h focus left
   bindsym $m+j focus down
@@ -244,6 +250,9 @@ mode "positioning" {
   bindsym $m+r   mode "resize"
   bindsym $m+p   mode "positioning (big steps)"
 
+  bindsym $m+$a+space mode "default" ; floating toggle
+  bindsym $m+space    mode "default" ; focus mode_toggle
+
   bindsym $m+h focus left
   bindsym $m+j focus down
   bindsym $m+k focus up
@@ -274,6 +283,9 @@ mode "positioning (big steps)" {
   bindsym Escape mode "default"
   bindsym $m+r   mode "resize (big steps)"
   bindsym $m+p   mode "positioning"
+
+  bindsym $m+$a+space mode "default" ; floating toggle
+  bindsym $m+space    mode "default" ; focus mode_toggle
 
   bindsym $m+h focus left
   bindsym $m+j focus down
@@ -372,6 +384,9 @@ mode "positioning (big steps)" {
 mode "do" {
   bindsym Escape mode "default"
 
+  bindsym $m+$a+space mode "default" ; floating toggle
+  bindsym $m+space    mode "default" ; focus mode_toggle
+
   # close focused window
   bindsym $m+c kill; mode "default"
   bindsym $s+c kill
@@ -413,6 +428,9 @@ mode "do" {
 
 mode "workspace" {
   bindsym Escape mode "default"
+
+  bindsym $m+$a+space mode "default" ; floating toggle
+  bindsym $m+space    mode "default" ; focus mode_toggle
 
   bindsym $m+u exec "i3-msg focus output `$d1`"
   bindsym $m+i exec "i3-msg focus output `$d2`"
@@ -469,6 +487,9 @@ mode "workspace" {
 
 mode "mouse-cursor" {
   bindsym Escape mode "default"
+
+  bindsym $m+$a+space mode "default" ; floating toggle
+  bindsym $m+space    mode "default" ; focus mode_toggle
 
   bindsym h exec "xdotool mousemove_relative -- -10  0"
   bindsym j exec "xdotool mousemove_relative --   0 +10"
