@@ -30,13 +30,6 @@ let sources = import nix/sources.nix; in
   # See the asserts below for available script names for overriding.
   scriptsPaths ? {}
 }:
-let isFilePath = path: builtins.isString path || builtins.isPath path; in
-
-# May potentially give you infinite recursion.
-# assert isFilePath configFile;
-
-# Gives infinite recursion. Depends on value. Let’s keep it lazy.
-# assert ! isNull autostartScript -> isFilePath autostartScript;
 
 assert builtins.isAttrs scriptsPaths;
 
@@ -52,24 +45,37 @@ assert let
   ];
 in builtins.all (x: builtins.elem x scripts) (builtins.attrNames scriptsPaths);
 
-# Gives infinite recursion. Depends on value. Let’s keep it lazy.
-# assert builtins.all isFilePath (builtins.attrValues scriptsPaths);
-
 let
+  isFilePath = path:
+    builtins.isString path ||
+    (
+      builtins.isPath path &&
+      pkgs.lib.pathIsRegularFile path
+    );
+
   patchArgs =
     builtins.foldl'
-      (acc: from: {
-        from = acc.from ++ [ from                 ];
-        to   = acc.to   ++ [ scriptsPaths.${from} ];
-      })
+      (acc: from:
+        let to = scriptsPaths.${from}; in
+        assert isFilePath to;
+        {
+          from = acc.from ++ [ from    ];
+          to   = acc.to   ++ [ "${to}" ];
+        }
+      )
       { from = []; to = []; }
       (builtins.attrNames scriptsPaths);
 
   patchFn = builtins.replaceStrings patchArgs.from patchArgs.to;
 
   config = pkgs.writeText "wenzels-i3-config-file" ''
-    ${patchFn (builtins.readFile configFile)}
-    ${if isNull autostartScript then "" else "exec_always ${autostartScript}"}
+    ${assert isFilePath configFile; patchFn (builtins.readFile configFile)}
+    ${
+      if isNull autostartScript
+         then ""
+         else assert isFilePath autostartScript;
+              "exec_always ${autostartScript}"
+    }
   '';
 in
 {
