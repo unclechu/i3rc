@@ -30,29 +30,30 @@ let sources = import nix/sources.nix; in
   # See the asserts below for available script names for overriding.
   scriptsPaths ? {}
 }:
-let
-  isFilePath = path:
-    builtins.isString path ||
-    (builtins.isPath path && pkgs.lib.pathIsRegularFile path);
-in
+let isFilePath = path: builtins.isString path || builtins.isPath path; in
 
-assert isFilePath configFile;
-assert ! isNull autostartScript -> isFilePath autostartScript;
+# May potentially give you infinite recursion.
+# assert isFilePath configFile;
+
+# Gives infinite recursion. Depends on value. Let’s keep it lazy.
+# assert ! isNull autostartScript -> isFilePath autostartScript;
+
 assert builtins.isAttrs scriptsPaths;
 
 # Available scripts to override paths of.
-assert [] == pkgs.lib.subtractLists
-  [
+assert let
+  scripts = [
     "autostart.sh"
     "input.sh"
     "cursor-to-display.pl"
     "gpaste-gui.pl"
     "pamng.sh"
     "screen-backlight.sh"
-  ]
-  (builtins.attrNames scriptsPaths);
+  ];
+in builtins.all (x: builtins.elem x scripts) (builtins.attrNames scriptsPaths);
 
-assert builtins.all isFilePath (builtins.attrValues scriptsPaths);
+# Gives infinite recursion. Depends on value. Let’s keep it lazy.
+# assert builtins.all isFilePath (builtins.attrValues scriptsPaths);
 
 let
   patchArgs =
