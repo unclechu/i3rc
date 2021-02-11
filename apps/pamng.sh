@@ -98,6 +98,7 @@ case $1 in
 		;;
 	-h|--help|help)
 		show-usage
+		exit
 		;;
 	*)
 		>&2 printf 'Unknown command: "%s"!\n' "$1"
