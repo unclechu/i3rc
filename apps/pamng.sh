@@ -3,6 +3,7 @@ set -eu
 
 # guard dependencies
 >/dev/null which pactl
+>/dev/null which grep
 >/dev/null which sed
 >/dev/null which awk
 >/dev/null which xargs
@@ -72,7 +73,6 @@ case $1 in
 		pactl set-sink-mute   "$SINK" false
 		pactl set-sink-volume "$SINK" "$x"
 		;;
-
 	reset)
 		if (( $# != 1 )); then >&2 echo Incorrect arguments; exit 1; fi
 
