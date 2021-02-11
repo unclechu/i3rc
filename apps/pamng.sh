@@ -1,29 +1,81 @@
 #!/usr/bin/env bash
-set -e
-SINK=`(pactl info | grep -i 'default sink:' | sed 's/^default sink:[ ]*//i')`
+set -eu
 
-case "$1" in
+# guard dependencies
+>/dev/null which pactl
+>/dev/null which sed
+>/dev/null which awk
+>/dev/null which xargs
+
+COMMANDS=(mute unmute mute-toggle inc dec reset)
+
+show-usage() {
+	echo
+	echo Usage:
+	printf '  %s COMMAND\n' "$(basename -- "$0")"
+	echo
+	echo Available COMMANDs:
+	printf '  %s\n' "${COMMANDS[@]}"
+	echo
+}
+
+if (( $# < 1 )); then
+	>&2 echo Incorrect arguments! Provide a command!
+	>&2 show-usage
+	exit 1
+fi
+
+SINK=$(pactl info | grep -i 'default sink:' | sed 's/^default sink:[ ]*//i')
+
+case $1 in
 	mute)
+		if (( $# != 1 )); then >&2 echo Incorrect arguments; exit 1; fi
 		pactl set-sink-mute "$SINK" true
 		;;
 	unmute)
+		if (( $# != 1 )); then >&2 echo Incorrect arguments; exit 1; fi
 		pactl set-sink-mute "$SINK" false
 		;;
 	mute-toggle)
+		if (( $# != 1 )); then >&2 echo Incorrect arguments; exit 1; fi
 		pactl set-sink-mute "$SINK" toggle
 		;;
 	inc)
-		x=$([[ -n $2 ]] && printf -- '+%s' "$2" || printf -- '+1.0dB')
+		if (( $# < 1 || $# > 2 )); then
+			>&2 echo Incorrect arguments
+			exit 1
+		fi
+
+		x=$(
+			if (( $# == 2 ))
+			then printf -- '+%s' "$2"
+			else printf -- '+1.0dB'
+			fi
+		)
+
 		pactl set-sink-mute   "$SINK" false
-		pactl set-sink-volume "$SINK" "$(printf '%s' "$x")"
+		pactl set-sink-volume "$SINK" "$x"
 		;;
 	dec)
-		x=$([[ -n $2 ]] && printf -- '-%s' "$2" || printf -- '-1.0dB')
+		if (( $# < 1 || $# > 2 )); then
+			>&2 echo Incorrect arguments
+			exit 1
+		fi
+
+		x=$(
+			if (( $# == 2 ))
+			then printf -- '-%s' "$2"
+			else printf -- '-1.0dB'
+			fi
+		)
+
 		pactl set-sink-mute   "$SINK" false
-		pactl set-sink-volume "$SINK" "$(printf '%s' "$x")"
+		pactl set-sink-volume "$SINK" "$x"
 		;;
 
 	reset)
+		if (( $# != 1 )); then >&2 echo Incorrect arguments; exit 1; fi
+
 		# reset devices outputs volumes
 		pactl list sinks short \
 			| awk '{print $2}' \
@@ -44,8 +96,12 @@ case "$1" in
 			| awk '{print $1}' \
 			| xargs -I {} pactl set-source-output-volume '{}' 0db
 		;;
+	-h|--help|help)
+		show-usage
+		;;
 	*)
-		printf 'Unknown command: "%s"\n' "$1" 1>&2
+		>&2 printf 'Unknown command: "%s"!\n' "$1"
+		>&2 show-usage
 		exit 1
 		;;
 esac
