@@ -550,6 +550,13 @@ bar {
   tray_output primary
 }
 
+# Red border for focused window (easier to notice)
+# class                 border  backgr. text    indicator child_border
+client.focused          #4c7899 #285577 #ffffff #2e9ef4   #ff0000
+
+default_border          pixel 1
+default_floating_border pixel 1
+
 for_window [class="."]                 border pixel 1
 for_window [title="^Place Cursor At"]  border none
 for_window [class="^qjackctl$"]        floating enable
