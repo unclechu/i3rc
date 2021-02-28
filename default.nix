@@ -42,6 +42,7 @@ assert let
     "gpaste-gui.pl"
     "pamng.sh"
     "screen-backlight.sh"
+    "invert-window-colors"
   ];
 in builtins.all (x: builtins.elem x scripts) (builtins.attrNames scriptsPaths);
 

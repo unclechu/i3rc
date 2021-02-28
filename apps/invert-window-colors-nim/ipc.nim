@@ -1,5 +1,5 @@
 # Author:  Viacheslav Lotsmanov
-# License: GPLv3 https://raw.githubusercontent.com/unclechu/i3rc/master/apps/invert-window-colors/license.txt
+# License: GPLv3 https://raw.githubusercontent.com/unclechu/i3rc/master/apps/invert-window-colors-nim/license.txt
 
 from strutils import replace
 from os       import getenv

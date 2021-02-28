@@ -1,5 +1,5 @@
 # Author:  Viacheslav Lotsmanov
-# License: GPLv3 https://raw.githubusercontent.com/unclechu/i3rc/master/apps/invert-window-colors/license.txt
+# License: GPLv3 https://raw.githubusercontent.com/unclechu/i3rc/master/apps/invert-window-colors-nim/license.txt
 
 from strutils import format, join, parseuint, replace, split
 from sequtils import filterIt, mapIt, newSeqWith
