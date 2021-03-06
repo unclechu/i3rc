@@ -388,42 +388,71 @@ mode "do" {
   bindsym $m+space    mode "default" ; focus mode_toggle
 
   # close focused window
-  bindsym $m+c kill; mode "default"
-  bindsym $s+c kill
+  # mnemonic: ‘w’ is for ‘Wipe’ or a common (Ctrl+W) hotkey that closes stuff
+  bindsym $m+w kill; mode "default"
+  bindsym    w kill
   # send SIGKILL to focused window
+  # mnemonic: ‘q’ is for ‘Quit it!’
   bindsym $m+q exec $exterminate; mode "default"
-  bindsym $s+q exec $exterminate
+  bindsym    q exec $exterminate
 
   # restart i3 in-place
   # (preserves your layout/session, can be used to upgrade i3)
+  # mnemonic: ‘r’ is for ‘Restart’
   bindsym $m+r restart
   # exit i3 (logs you out of your X session)
-  bindsym $m+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"
+  # mnemonic: ‘e’ is for ‘Exit’
+  bindsym $m+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"; mode "default"
 
+  # mnemonic: ‘a’ is for ‘Autostart’
   bindsym $m+a exec autostart.sh; mode "default"
+  # mnemonic: ‘i’ is for ‘Input’
   bindsym $m+i exec input.sh;     mode "default"
 
-  bindsym x exec cursor-to-display.pl -d 1
-  bindsym c exec cursor-to-display.pl -d 2
-  bindsym v exec cursor-to-display.pl -d 3
-  bindsym z exec place-cursor-at; mode "default"
+  bindsym $m+x exec cursor-to-display.pl -d 1; mode "default"
+  bindsym    x exec cursor-to-display.pl -d 1
+  bindsym $m+c exec cursor-to-display.pl -d 2; mode "default"
+  bindsym    c exec cursor-to-display.pl -d 2
+  bindsym $m+v exec cursor-to-display.pl -d 3; mode "default"
+  bindsym    v exec cursor-to-display.pl -d 3
+  bindsym $m+z exec place-cursor-at; mode "default"
+  bindsym    z exec place-cursor-at
 
-  bindsym a sticky toggle; mode "default"
-  bindsym b border toggle
+  # mnemonic: ‘f’ is for ‘Force’ (force a window to appear on all workspaces)
+  bindsym $m+f sticky toggle; mode "default"
+  bindsym    f sticky toggle
 
-  bindsym s exec shutter; mode "default"
-  bindsym e [class="^Termite" title="vim"] focus; mode "default"
+  # mnemonic: ‘b’ is for ‘Border’
+  bindsym $m+b border toggle; mode "default"
+  bindsym    b border toggle
+
+  # mnemonic: ‘s’ is for ‘Shutter’
+  bindsym $m+s exec shutter; mode "default"
+  bindsym    s exec shutter
+
+  # mnemonic: ‘u’ is a letter of ‘tmUx’
+  bindsym $m+u [class="^Termite" title="tmux"] focus; mode "default"
+  bindsym    u [class="^Termite" title="tmux"] focus
+  # mnemonic: ‘y’ visually looks like ‘v’
+  bindsym $m+y [class="^Termite" title="vim"]  focus; mode "default"
+  bindsym    y [class="^Termite" title="vim"]  focus
 
   # jump to audacious windows (when it's float, winamp classic interface)
-  bindsym m [class="^Audacious$" title="Audacious$" floating] focus; mode "default"
-  bindsym p [class="^Audacious$" title="^Audacious Playlist Editor$" floating] focus; mode "default"
+  # mnemonic: ‘m’ is for ‘Music’
+  bindsym $m+m [class="^Audacious$" title="Audacious$" floating] focus; mode "default"
+  bindsym    m [class="^Audacious$" title="Audacious$" floating] focus
+  # mnemonic: ‘p’ is for ‘Playlist’
+  bindsym $m+p [class="^Audacious$" title="^Audacious Playlist Editor$" floating] focus; mode "default"
+  bindsym    p [class="^Audacious$" title="^Audacious Playlist Editor$" floating] focus
 
-  bindsym n exec timeout 2s invert-window-colors app all; mode "default"
+  # mnemonic: ‘n’ is for ‘Negative’
+  bindsym $m+n exec timeout 2s invert-window-colors app all; mode "default"
+  bindsym    n exec timeout 2s invert-window-colors app all
 
-  bindsym semicolon exec gmrun; mode "default"
-  bindsym $a+semicolon exec dmenu_run; mode "default"
-
-  bindsym t exec $tmp_workspace; mode "default"
+  # renames current workspace to temporary name
+  # mnemonic: ‘t’ is for ‘Temporary’
+  bindsym $m+t exec $tmp_workspace; mode "default"
+  bindsym    t exec $tmp_workspace
 }
 
 mode "workspace" {
