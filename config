@@ -612,6 +612,9 @@ for_window [class="^qjackctl$"]        floating enable
 for_window [title="^Android Emulator"] floating enable
 for_window [class="^Gmrun$"]           move position center
 
+for_window [class="Firefox" window_role="^PictureInPicture$"] floating enable
+for_window [class="Firefox" window_role="^PictureInPicture$"] sticky   enable
+
 focus_on_window_activation none
 
 exec_always timeout 2s invert-window-colors app all
