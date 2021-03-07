@@ -15,7 +15,8 @@
 #   }
 #
 let sources = import nix/sources.nix; in
-{ pkgs ? import sources.nixpkgs {}
+{ pkgs  ? import sources.nixpkgs {}
+, utils ? import sources.nix-utils { inherit pkgs; }
 
 , configFile ? ./config
 
@@ -54,30 +55,39 @@ let
       pkgs.lib.pathIsRegularFile path
     );
 
-  patchArgs =
-    builtins.foldl'
-      (acc: from:
-        let to = scriptsPaths.${from}; in
-        assert isFilePath to;
-        {
-          from = acc.from ++ [ from    ];
-          to   = acc.to   ++ [ "${to}" ];
-        }
-      )
-      { from = []; to = []; }
-      (builtins.attrNames scriptsPaths);
+  pipeline = pkgs.lib.flip (builtins.foldl' (acc: fn: fn acc));
 
-  patchFn = builtins.replaceStrings patchArgs.from patchArgs.to;
+  patchArgs = pipeline [
+    (pkgs.lib.mapAttrsToList (from: to:
+      assert isFilePath to; { inherit from to; }))
+    (pkgs.lib.foldAttrs (x: a: [x] ++ a) [])
+  ];
 
-  config = pkgs.writeText "wenzels-i3-config-file" ''
-    ${assert isFilePath configFile; patchFn (builtins.readFile configFile)}
-    ${
-      if isNull autostartScript
-         then ""
-         else assert isFilePath autostartScript;
-              "exec_always ${autostartScript}"
-    }
-  '';
+  patchFn =
+    let inherit (patchArgs (scriptsPaths // extraScriptsPaths)) from to;
+    in  builtins.replaceStrings from to;
+
+  pgrep = "${pkgs.procps}/bin/pgrep";
+  extraScriptsPaths = { inherit pgrep; };
+
+  config = pkgs.writeTextFile {
+    name = "wenzels-i3-config-file";
+
+    text = ''
+      ${assert isFilePath configFile; patchFn (builtins.readFile configFile)}
+      ${
+        if isNull autostartScript
+           then ""
+           else assert isFilePath autostartScript;
+                "exec_always ${autostartScript}"
+      }
+    '';
+
+    checkPhase = ''
+      set -Eeuo pipefail
+      ${utils.shellCheckers.fileIsExecutable pgrep}
+    '';
+  };
 in
 {
   services.xserver.windowManager.i3 = {

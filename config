@@ -19,7 +19,13 @@ set $new_workspace "i3-msg workspace -- $((`i3-msg -t get_workspaces | jq 'map(s
 # useful when another screen isn't used at the moment
 set $tmp_workspace "i3-msg rename workspace to tmp$(( ((RANDOM%9)+1) + (((RANDOM%9)+1)*10) + (((RANDOM%9)+1)*100) ))"
 
-set $exterminate "kill -9 -- $((`xdotool getactivewindow getwindowpid`))"
+set $exterminate "kill -KILL -- $(($(xdotool getactivewindow getwindowpid)))"
+
+set $pause_proc "kill -STOP -- $(($(xdotool getactivewindow getwindowpid)))"
+set $pause_proc_rec "(n=0; rec() { set -eu || return; if (( ++n > 10 )); then return 1; fi; kill -STOP -- $(($1)); pgrep -P $(($1)) | while read -r x; do rec $((x)); done; } && rec $(($(xdotool getactivewindow getwindowpid))))"
+
+set $resume_proc "kill -CONT -- $(($(xdotool getactivewindow getwindowpid)))"
+set $resume_proc_rec "(n=0; rec() { set -eu || return; if (( ++n > 10 )); then return 1; fi; kill -CONT -- $(($1)); pgrep -P $(($1)) | while read -r x; do rec $((x)); done; } && rec $(($(xdotool getactivewindow getwindowpid))))"
 
 set $terminal_dark  "if &>/dev/null type termite-dark;  then termite-dark;  elif &>/dev/null type termite; then termite; else i3-sensible-terminal; fi"
 set $terminal_light "if &>/dev/null type termite-light; then termite-light; elif &>/dev/null type termite; then termite; else i3-sensible-terminal; fi"
@@ -395,6 +401,20 @@ mode "do" {
   # mnemonic: ‘q’ is for ‘Quit it!’
   bindsym $m+q exec $exterminate; mode "default"
   bindsym    q exec $exterminate
+  # send SIGSTOP to focused window
+  # mnemonic: ‘h’ is for ‘Hold’
+  bindsym $m+h exec $pause_proc; mode "default"
+  bindsym    h exec $pause_proc
+  # STOP focused window and all its children
+  bindsym $m+$a+h exec $pause_proc_rec; mode "default"
+  bindsym    $s+h exec $pause_proc_rec
+  # send SIGCONT to focused window
+  # mnemonic: ‘j’ is for ‘Join’
+  bindsym $m+j exec $resume_proc; mode "default"
+  bindsym    j exec $resume_proc
+  # CONTinue focused window and all its children
+  bindsym $m+$a+j exec $resume_proc_rec; mode "default"
+  bindsym    $s+j exec $resume_proc_rec
 
   # restart i3 in-place
   # (preserves your layout/session, can be used to upgrade i3)
