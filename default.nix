@@ -14,6 +14,12 @@
 #     ];
 #   }
 #
+# These dependencies are left up to you to provide or not in your PATH:
+#   - place-cursor-at
+#   - gnome-screenshot
+#   - gnome-calculator
+#   - audacious
+#
 let sources = import nix/sources.nix; in
 { pkgs  ? import sources.nixpkgs {}
 , utils ? import sources.nix-utils { inherit pkgs; }
@@ -64,11 +70,13 @@ let
   ];
 
   patchFn =
-    let inherit (patchArgs (scriptsPaths // extraScriptsPaths)) from to;
+    let inherit (patchArgs (dependencies // scriptsPaths)) from to;
     in  builtins.replaceStrings from to;
 
+  jq = "${pkgs.jq}/bin/jq";
   pgrep = "${pkgs.procps}/bin/pgrep";
-  extraScriptsPaths = { inherit pgrep; };
+  xdotool = "${pkgs.xdotool}/bin/xdotool";
+  dependencies = { inherit jq pgrep xdotool; };
 
   config = pkgs.writeTextFile {
     name = "wenzels-i3-config-file";
@@ -85,7 +93,14 @@ let
 
     checkPhase = ''
       set -Eeuo pipefail
-      ${utils.shellCheckers.fileIsExecutable pgrep}
+      ${
+        pkgs.lib.flip pipeline
+          (builtins.attrValues dependencies)
+          [
+            (map utils.shellCheckers.fileIsExecutable)
+            (builtins.concatStringsSep "\n")
+          ]
+      }
     '';
   };
 in
