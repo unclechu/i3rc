@@ -395,12 +395,12 @@ mode "do" {
 
   # close focused window
   # mnemonic: ‘w’ is for ‘Wipe’ or a common (Ctrl+W) hotkey that closes stuff
-  bindsym $m+w kill; mode "default"
-  bindsym    w kill
+  bindsym $m+q kill; mode "default"
+  bindsym    q kill
   # send SIGKILL to focused window
   # mnemonic: ‘q’ is for ‘Quit it!’
-  bindsym $m+q exec $exterminate; mode "default"
-  bindsym    q exec $exterminate
+  bindsym $m+$a+q exec $exterminate; mode "default"
+  bindsym    $s+q exec $exterminate
   # send SIGSTOP to focused window
   # mnemonic: ‘h’ is for ‘Hold’
   bindsym $m+h exec $pause_proc; mode "default"
