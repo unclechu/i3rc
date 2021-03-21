@@ -1,3 +1,5 @@
+# Author: Viacheslav Lotsmanov
+# License: MIT https://raw.githubusercontent.com/unclechu/i3rc/master/LICENSE-MIT
 #
 # This module is supposed to be added to the imports of ‘configuration.nix’.
 #

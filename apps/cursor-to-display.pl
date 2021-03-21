@@ -1,4 +1,6 @@
-#!/usr/bin/env perl
+#! /usr/bin/env perl
+# Author: Viacheslav Lotsmanov
+# License: MIT https://raw.githubusercontent.com/unclechu/i3rc/master/LICENSE-MIT
 # vim: se et ts=2 sts=2 sw=2 :
 use v5.10; use strict; use warnings;
 use List::Util qw<first>;

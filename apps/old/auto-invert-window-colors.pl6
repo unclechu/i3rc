@@ -1,4 +1,6 @@
-#!/usr/bin/env perl6
+#! /usr/bin/env perl6
+# Author: Viacheslav Lotsmanov
+# License: MIT https://raw.githubusercontent.com/unclechu/i3rc/master/LICENSE-MIT
 use v6.c;
 $*IN.close;
 

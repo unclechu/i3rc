@@ -1,4 +1,6 @@
-#!/usr/bin/env bash
+#! /usr/bin/env bash
+# Author: Viacheslav Lotsmanov
+# License: MIT https://raw.githubusercontent.com/unclechu/i3rc/master/LICENSE-MIT
 set -eu
 
 # guard dependencies

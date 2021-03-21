@@ -1,4 +1,6 @@
 #!/usr/bin/env perl
+# Author: Viacheslav Lotsmanov
+# License: MIT https://raw.githubusercontent.com/unclechu/i3rc/master/LICENSE-MIT
 use v5.10; use strict; use warnings; use autodie qw(:all);
 die 'unexpected arguments count' if scalar(@ARGV) != 1;
 use Env qw<HOME>;

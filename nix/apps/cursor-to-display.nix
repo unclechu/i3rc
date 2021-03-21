@@ -1,3 +1,5 @@
+# Author: Viacheslav Lotsmanov
+# License: MIT https://raw.githubusercontent.com/unclechu/i3rc/master/LICENSE-MIT
 let sources = import ../sources.nix; in
 { pkgs ? import sources.nixpkgs {}
 , src  ? ../../apps/cursor-to-display.pl
