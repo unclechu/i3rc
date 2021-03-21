@@ -1,42 +1,54 @@
 # Author: Viacheslav Lotsmanov
 # License: MIT https://raw.githubusercontent.com/unclechu/i3rc/master/LICENSE-MIT
-let sources = import ../sources.nix; in
-{ pkgs ? import sources.nixpkgs {}
 
-, src ?
+# This module is intended to be called with ‘nixpkgs.callPackage’
+let sources = import ../sources.nix; in
+{ callPackage
+, lib
+, nix-gitignore
+, stdenv
+, nim
+, dbus
+, pcre
+, xdotool
+, xlibs # Just for ‘xwininfo’
+
+# Overridable dependencies
+, __nix-utils ? callPackage sources.nix-utils {}
+, nim-dbus-src ? sources.nim-dbus
+
+# Build options
+, __src ?
     let
       filter = fileName: fileType:
-        pkgs.lib.cleanSourceFilter fileName fileType && (
+        lib.cleanSourceFilter fileName fileType && (
           fileType == "directory" ||
           ! isNull (builtins.match "^.*/license[.]txt$" fileName) ||
           ! isNull (builtins.match "^.*/[^/]+[.]nim$" fileName)
         );
 
       clean =
-        pkgs.nix-gitignore.gitignoreFilterRecursiveSource filter
+        nix-gitignore.gitignoreFilterRecursiveSource filter
           [ ../../.gitignore ];
     in
       clean ../../apps/invert-window-colors-nim
-
-, nim-dbus-src ? sources.nim-dbus
 }:
 let
-  utils = import ../utils.nix { inherit pkgs; };
-  inherit (utils) esc wrapExecutable;
+  inherit (__nix-utils) esc wrapExecutable;
 
-  invert-window-colors = pkgs.stdenv.mkDerivation rec {
+  invert-window-colors = stdenv.mkDerivation rec {
     name = "invert-window-colors";
-    inherit src;
+    src = __src;
 
     # Build dependencies
     nativeBuildInputs = [
-      pkgs.nim
+      nim
     ];
 
     # Runtime dependencies
     buildInputs = [
-      pkgs.dbus
-      pkgs.pcre
+      dbus
+      pcre
     ];
 
     buildPhase = ''
@@ -63,7 +75,7 @@ let
 in
 wrapExecutable "${invert-window-colors}/bin/invert-window-colors" {
   deps = [
-    pkgs.xdotool
-    pkgs.xlibs.xwininfo
+    xdotool
+    xlibs.xwininfo
   ];
 }

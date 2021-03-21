@@ -4,11 +4,11 @@
 set -eu
 
 # guard dependencies
->/dev/null which pactl
->/dev/null which grep
->/dev/null which sed
->/dev/null which awk
->/dev/null which xargs
+>/dev/null type -P pactl
+>/dev/null type -P grep
+>/dev/null type -P sed
+>/dev/null type -P awk
+>/dev/null type -P xargs
 
 COMMANDS=(mute unmute mute-toggle inc dec reset)
 

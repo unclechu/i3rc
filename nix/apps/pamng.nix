@@ -1,36 +1,61 @@
 # Author: Viacheslav Lotsmanov
 # License: MIT https://raw.githubusercontent.com/unclechu/i3rc/master/LICENSE-MIT
+
+# This module is intended to be called with ‘nixpkgs.callPackage’
 let sources = import ../sources.nix; in
-{ pkgs ? import sources.nixpkgs {}
-, src  ? ../../apps/pamng.sh
+{ callPackage
+, bash
+, pulseaudio
+, gnugrep
+, gnused
+, gawk
+, findutils
+
+# Overridable dependencies
+, __utils ? callPackage ../utils.nix {}
+
+# Build options
+, __srcScript ? ../../apps/pamng.sh
 }:
 let
-  utils = import ../utils.nix { inherit pkgs; };
-  inherit (utils) esc writeCheckedExecutable nameOfModuleFile isDerivationLike;
+  inherit (__utils)
+    esc nameOfModuleFile shellCheckers isDerivationLike
+    writeCheckedExecutable wrapExecutable;
 in
-assert isDerivationLike src || builtins.isString src;
+assert isDerivationLike __srcScript || builtins.isString __srcScript;
 let
   name = nameOfModuleFile (builtins.unsafeGetAttrPos "a" { a = 0; }).file;
-  bash = "${pkgs.bash}/bin/bash";
+  bash-exe = "${bash}/bin/bash";
+
+  # Name is executable name and value is a derivation
+  dependencies = {
+    pactl = pulseaudio;
+    grep = gnugrep;
+    sed = gnused;
+    awk = gawk;
+    xargs = findutils;
+  };
 
   checkPhase = ''
-    ${utils.shellCheckers.fileIsExecutable bash}
-    ${utils.shellCheckers.fileIsExecutable "${pkgs.pulseaudio}/bin/pactl"}
-    ${utils.shellCheckers.fileIsExecutable "${pkgs.gnugrep}/bin/grep"}
-    ${utils.shellCheckers.fileIsExecutable "${pkgs.gnused}/bin/sed"}
-    ${utils.shellCheckers.fileIsExecutable "${pkgs.gawk}/bin/awk"}
-    ${utils.shellCheckers.fileIsExecutable "${pkgs.findutils}/bin/xargs"}
+    ${shellCheckers.fileIsExecutable bash-exe}
+    ${
+      builtins.concatStringsSep "\n" (
+        map
+          (k: shellCheckers.fileIsExecutable "${dependencies.${k}}/bin/${k}")
+          (builtins.attrNames dependencies)
+      )
+    }
+  '';
+
+  script = writeCheckedExecutable name checkPhase ''
+    #! ${bash-exe}
+    ${
+      if isDerivationLike __srcScript
+      then builtins.readFile __srcScript
+      else __srcScript
+    }
   '';
 in
-writeCheckedExecutable name checkPhase ''
-  #! ${bash}
-  set -eu
-
-  export PATH=${esc pkgs.pulseaudio}/bin:$PATH
-  export PATH=${esc pkgs.gnugrep}/bin:$PATH
-  export PATH=${esc pkgs.gnused}/bin:$PATH
-  export PATH=${esc pkgs.gawk}/bin:$PATH
-  export PATH=${esc pkgs.findutils}/bin:$PATH
-
-  ${if isDerivationLike src then builtins.readFile src else src}
-''
+wrapExecutable "${script}/bin/${name}" {
+  deps = builtins.attrValues dependencies;
+}

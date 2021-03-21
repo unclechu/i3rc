@@ -1,18 +1,19 @@
 # Author: Viacheslav Lotsmanov
 # License: MIT https://raw.githubusercontent.com/unclechu/i3rc/master/LICENSE-MIT
 #
+# This module is intended to be called with ‘nixpkgs.callPackage’.
 # This module is supposed to be added to the imports of ‘configuration.nix’.
 #
 # For instance (in ‘configuration.nix’):
 #   { pkgs, ... }:
 #   {
 #     imports = [
-#       (import (pkgs.fetchFromGitHub {
+#       (pkgs.callPackage (pkgs.fetchFromGitHub {
 #         owner  = "unclechu";
 #         repo   = "i3rc";
 #         rev    = "0000000000000000000000000000000000000000";
 #         sha256 = "0000000000000000000000000000000000000000000000000000";
-#       }) { inherit pkgs; })
+#       }) {})
 #     ];
 #   }
 #
@@ -23,10 +24,19 @@
 #   - audacious
 #
 let sources = import nix/sources.nix; in
-{ pkgs  ? import sources.nixpkgs {}
-, utils ? import sources.nix-utils { inherit pkgs; }
+{ callPackage
+, lib
+, writeTextFile
+, jq
+, procps
+, xdotool
 
-, configFile ? ./config
+# Overridable dependencies
+, __nix-utils ? callPackage sources.nix-utils {}
+
+# ↓ Build options ↓
+
+, __configFile ? ./config
 
 , # A script that runs each time i3 just starts
   # or restarts within the same session.
@@ -56,35 +66,37 @@ assert let
 in builtins.all (x: builtins.elem x scripts) (builtins.attrNames scriptsPaths);
 
 let
+  inherit (__nix-utils) shellCheckers;
+
   isFilePath = path:
     builtins.isString path ||
-    (
-      builtins.isPath path &&
-      pkgs.lib.pathIsRegularFile path
-    );
+    (builtins.isPath path && lib.pathIsRegularFile path);
 
-  pipeline = pkgs.lib.flip (builtins.foldl' (acc: fn: fn acc));
+  pipeline = lib.flip (builtins.foldl' (acc: fn: fn acc));
 
   patchArgs = pipeline [
-    (pkgs.lib.mapAttrsToList (from: to:
-      assert isFilePath to; { inherit from to; }))
-    (pkgs.lib.foldAttrs (x: a: [x] ++ a) [])
+    (lib.mapAttrsToList (from: to: assert isFilePath to; { inherit from to; }))
+    (lib.foldAttrs (x: a: [x] ++ a) [])
   ];
 
   patchFn =
     let inherit (patchArgs (dependencies // scriptsPaths)) from to;
     in  builtins.replaceStrings from to;
 
-  jq = "${pkgs.jq}/bin/jq";
-  pgrep = "${pkgs.procps}/bin/pgrep";
-  xdotool = "${pkgs.xdotool}/bin/xdotool";
-  dependencies = { inherit jq pgrep xdotool; };
+  dependencies = {
+    jq = "${jq}/bin/jq";
+    pgrep = "${procps}/bin/pgrep";
+    xdotool = "${xdotool}/bin/xdotool";
+  };
 
-  config = pkgs.writeTextFile {
+  config = writeTextFile {
     name = "wenzels-i3-config-file";
 
     text = ''
-      ${assert isFilePath configFile; patchFn (builtins.readFile configFile)}
+      ${
+        assert isFilePath __configFile;
+        patchFn (builtins.readFile __configFile)
+      }
       ${
         if isNull autostartScript
            then ""
@@ -96,10 +108,10 @@ let
     checkPhase = ''
       set -Eeuo pipefail
       ${
-        pkgs.lib.flip pipeline
+        lib.flip pipeline
           (builtins.attrValues dependencies)
           [
-            (map utils.shellCheckers.fileIsExecutable)
+            (map shellCheckers.fileIsExecutable)
             (builtins.concatStringsSep "\n")
           ]
       }
