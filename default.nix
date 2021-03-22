@@ -2,19 +2,24 @@
 # License: MIT https://raw.githubusercontent.com/unclechu/i3rc/master/LICENSE-MIT
 #
 # This module is intended to be called with ‘nixpkgs.callPackage’.
-# This module is supposed to be added to the imports of ‘configuration.nix’.
+# This module provides just a i3 config file derivation.
 #
-# For instance (in ‘configuration.nix’):
+# Here is how you use it in your NixOS ‘configuration.nix’ (minimal example):
+#
 #   { pkgs, ... }:
+#   let
+#     i3-config = pkgs.callPackage (pkgs.fetchFromGitHub {
+#       owner  = "unclechu";
+#       repo   = "i3rc";
+#       rev    = "0000000000000000000000000000000000000000";
+#       sha256 = "0000000000000000000000000000000000000000000000000000";
+#     }) {};
+#   in
 #   {
-#     imports = [
-#       (pkgs.callPackage (pkgs.fetchFromGitHub {
-#         owner  = "unclechu";
-#         repo   = "i3rc";
-#         rev    = "0000000000000000000000000000000000000000";
-#         sha256 = "0000000000000000000000000000000000000000000000000000";
-#       }) {})
-#     ];
+#     services.xserver.windowManager.i3 = {
+#       enable     = true;
+#       configFile = i3-config;
+#     };
 #   }
 #
 # These dependencies are left up to you to provide or not in your PATH:
@@ -72,6 +77,7 @@ let
     builtins.isString path ||
     (builtins.isPath path && lib.pathIsRegularFile path);
 
+  # TODO Move this to ‘nix-utils’
   pipeline = lib.flip (builtins.foldl' (acc: fn: fn acc));
 
   patchArgs = pipeline [
@@ -88,39 +94,32 @@ let
     pgrep = "${procps}/bin/pgrep";
     xdotool = "${xdotool}/bin/xdotool";
   };
-
-  config = writeTextFile {
-    name = "wenzels-i3-config-file";
-
-    text = ''
-      ${
-        assert isFilePath __configFile;
-        patchFn (builtins.readFile __configFile)
-      }
-      ${
-        if isNull autostartScript
-           then ""
-           else assert isFilePath autostartScript;
-                "exec_always ${autostartScript}"
-      }
-    '';
-
-    checkPhase = ''
-      set -Eeuo pipefail
-      ${
-        lib.flip pipeline
-          (builtins.attrValues dependencies)
-          [
-            (map shellCheckers.fileIsExecutable)
-            (builtins.concatStringsSep "\n")
-          ]
-      }
-    '';
-  };
 in
-{
-  services.xserver.windowManager.i3 = {
-    enable     = true;
-    configFile = config;
-  };
+writeTextFile {
+  name = "wenzels-i3-config-file";
+
+  text = ''
+    ${
+      assert isFilePath __configFile;
+      patchFn (builtins.readFile __configFile)
+    }
+    ${
+      if isNull autostartScript
+         then ""
+         else assert isFilePath autostartScript;
+              "exec_always ${autostartScript}"
+    }
+  '';
+
+  checkPhase = ''
+    set -Eeuo pipefail
+    ${
+      lib.flip pipeline
+        (builtins.attrValues dependencies)
+        [
+          (map shellCheckers.fileIsExecutable)
+          (builtins.concatStringsSep "\n")
+        ]
+    }
+  '';
 }
