@@ -15,7 +15,11 @@ let sources = import ../sources.nix; in
 , __utils ? callPackage ../utils.nix {}
 
 # Build options
+, injectDependencies ? []
+, injectScriptPre ? ""
 , __srcScript ? ../../apps/pamng.sh
+, injectScriptPost ? ""
+, injectCheckPhase ? ""
 }:
 let
   inherit (__utils)
@@ -45,17 +49,26 @@ let
           (builtins.attrNames dependencies)
       )
     }
+    ${injectCheckPhase}
   '';
 
   script = writeCheckedExecutable name checkPhase ''
     #! ${bash-exe}
+    ${injectScriptPre}
     ${
       if isDerivationLike __srcScript
       then builtins.readFile __srcScript
       else __srcScript
     }
+    ${injectScriptPost}
   '';
 in
 wrapExecutable "${script}/bin/${name}" {
-  deps = builtins.attrValues dependencies;
+  deps =
+    let localDependencies = builtins.attrValues dependencies; in
+    assert builtins.isList localDependencies;
+    assert builtins.isList injectDependencies;
+    assert builtins.all isDerivationLike localDependencies;
+    assert builtins.all isDerivationLike injectDependencies;
+    localDependencies ++ injectDependencies;
 }
