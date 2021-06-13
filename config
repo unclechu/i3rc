@@ -16,6 +16,7 @@ set $s Shift
 set $d1 i3-msg -t get_outputs | jq -r '[.[] | select(.active)] | sort_by(.rect.x, .rect.y) | .[0].name'
 set $d2 i3-msg -t get_outputs | jq -r '[.[] | select(.active)] | sort_by(.rect.x, .rect.y) | .[1].name'
 set $d3 i3-msg -t get_outputs | jq -r '[.[] | select(.active)] | sort_by(.rect.x, .rect.y) | .[2].name'
+set $d4 i3-msg -t get_outputs | jq -r '[.[] | select(.active)] | sort_by(.rect.x, .rect.y) | .[3].name'
 
 set $new_workspace "i3-msg workspace -- $(( $(i3-msg -t get_workspaces | jq 'map(select(.num > 0).num) | [range(1; max+2)]-. | min') ))"
 
@@ -64,17 +65,20 @@ bindsym $m+$a+apostrophe exec gpaste-gui.pl -m=choose
 bindsym $m+n exec timeout 2s invert-window-colors
 bindsym $m+m exec place-cursor-at
 
-bindsym $m+u exec "i3-msg focus output $($d1)"
-bindsym $m+i exec "i3-msg focus output $($d2)"
-bindsym $m+o exec "i3-msg focus output $($d3)"
+bindsym $m+y exec "i3-msg focus output $($d1)"
+bindsym $m+u exec "i3-msg focus output $($d2)"
+bindsym $m+i exec "i3-msg focus output $($d3)"
+bindsym $m+o exec "i3-msg focus output $($d4)"
 
-bindsym $m+$a+u exec sh -c 'cursor-to-display.pl -d 1 && sleep .1 && place-cursor-at'
-bindsym $m+$a+i exec sh -c 'cursor-to-display.pl -d 2 && sleep .1 && place-cursor-at'
-bindsym $m+$a+o exec sh -c 'cursor-to-display.pl -d 3 && sleep .1 && place-cursor-at'
+bindsym $m+$a+y exec sh -c 'cursor-to-display.pl -d 1 && sleep .1 && place-cursor-at'
+bindsym $m+$a+u exec sh -c 'cursor-to-display.pl -d 2 && sleep .1 && place-cursor-at'
+bindsym $m+$a+i exec sh -c 'cursor-to-display.pl -d 3 && sleep .1 && place-cursor-at'
+bindsym $m+$a+o exec sh -c 'cursor-to-display.pl -d 4 && sleep .1 && place-cursor-at'
 
-bindsym $m+$s+u exec "i3-msg move container to output $($d1)"
-bindsym $m+$s+i exec "i3-msg move container to output $($d2)"
-bindsym $m+$s+o exec "i3-msg move container to output $($d3)"
+bindsym $m+$s+y exec "i3-msg move container to output $($d1)"
+bindsym $m+$s+u exec "i3-msg move container to output $($d2)"
+bindsym $m+$s+i exec "i3-msg move container to output $($d3)"
+bindsym $m+$s+o exec "i3-msg move container to output $($d4)"
 
 bindsym Print exec gnome-screenshot
 bindsym $m+Print exec gnome-screenshot -w
@@ -432,14 +436,16 @@ mode "do" {
   # mnemonic: ‘i’ is for ‘Input’
   bindsym $m+i exec input.sh;     mode "default"
 
-  bindsym $m+x exec cursor-to-display.pl -d 1; mode "default"
-  bindsym    x exec cursor-to-display.pl -d 1
-  bindsym $m+c exec cursor-to-display.pl -d 2; mode "default"
-  bindsym    c exec cursor-to-display.pl -d 2
-  bindsym $m+v exec cursor-to-display.pl -d 3; mode "default"
-  bindsym    v exec cursor-to-display.pl -d 3
-  bindsym $m+z exec place-cursor-at; mode "default"
-  bindsym    z exec place-cursor-at
+  bindsym $m+z exec cursor-to-display.pl -d 1; mode "default"
+  bindsym    z exec cursor-to-display.pl -d 1
+  bindsym $m+x exec cursor-to-display.pl -d 2; mode "default"
+  bindsym    x exec cursor-to-display.pl -d 2
+  bindsym $m+c exec cursor-to-display.pl -d 3; mode "default"
+  bindsym    c exec cursor-to-display.pl -d 3
+  bindsym $m+v exec cursor-to-display.pl -d 4; mode "default"
+  bindsym    v exec cursor-to-display.pl -d 4
+  bindsym $m+g exec place-cursor-at; mode "default"
+  bindsym    g exec place-cursor-at
 
   # mnemonic: ‘f’ is for ‘Force’ (force a window to appear on all workspaces)
   bindsym $m+f sticky toggle; mode "default"
@@ -484,13 +490,15 @@ mode "workspace" {
   bindsym $m+$a+space mode "default" ; floating toggle
   bindsym $m+space    mode "default" ; focus mode_toggle
 
-  bindsym $m+u exec "i3-msg focus output `$d1`"
-  bindsym $m+i exec "i3-msg focus output `$d2`"
-  bindsym $m+o exec "i3-msg focus output `$d3`"
+  bindsym $m+y exec "i3-msg focus output `$d1`"
+  bindsym $m+u exec "i3-msg focus output `$d2`"
+  bindsym $m+i exec "i3-msg focus output `$d3`"
+  bindsym $m+o exec "i3-msg focus output `$d4`"
 
-  bindsym $a+u exec "i3-msg move workspace to output `$d1`"
-  bindsym $a+i exec "i3-msg move workspace to output `$d2`"
-  bindsym $a+o exec "i3-msg move workspace to output `$d3`"
+  bindsym $a+y exec "i3-msg move workspace to output `$d1`"
+  bindsym $a+u exec "i3-msg move workspace to output `$d2`"
+  bindsym $a+i exec "i3-msg move workspace to output `$d3`"
+  bindsym $a+o exec "i3-msg move workspace to output `$d4`"
 
   bindsym    i                   workspace im; mode "default"
   bindsym $s+i move container to workspace im; mode "default"
@@ -581,13 +589,15 @@ mode "mouse-cursor" {
   bindsym $m+k focus up
   bindsym $m+l focus right
 
-  bindsym u exec "i3-msg focus output `$d1`"
-  bindsym i exec "i3-msg focus output `$d2`"
-  bindsym o exec "i3-msg focus output `$d3`"
+  bindsym y exec "i3-msg focus output `$d1`"
+  bindsym u exec "i3-msg focus output `$d2`"
+  bindsym i exec "i3-msg focus output `$d3`"
+  bindsym o exec "i3-msg focus output `$d4`"
 
-  bindsym $s+u exec "i3-msg move workspace to output `$d1`"
-  bindsym $s+i exec "i3-msg move workspace to output `$d2`"
-  bindsym $s+o exec "i3-msg move workspace to output `$d3`"
+  bindsym $s+y exec "i3-msg move workspace to output `$d1`"
+  bindsym $s+u exec "i3-msg move workspace to output `$d2`"
+  bindsym $s+i exec "i3-msg move workspace to output `$d3`"
+  bindsym $s+o exec "i3-msg move workspace to output `$d4`"
 }
 
 # modes switching hotkeys
