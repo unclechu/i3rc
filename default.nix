@@ -53,6 +53,9 @@ let sources = import nix/sources.nix; in
   # and attribute value is the new path to that script.
   # See the asserts below for available script names for overriding.
   scriptsPaths ? {}
+
+, terminalDark  ? null # Optional path to an executable of terminal emulator (dark  color scheme)
+, terminalLight ? null # Optional path to an executable of terminal emulator (light color scheme)
 }:
 
 assert builtins.isAttrs scriptsPaths;
@@ -71,20 +74,48 @@ assert let
 in builtins.all (x: builtins.elem x scripts) (builtins.attrNames scriptsPaths);
 
 let
-  inherit (__nix-utils) shellCheckers;
+  inherit (__nix-utils) shellCheckers lines unlines;
 
   isFilePath = path:
     builtins.isString path ||
     (builtins.isPath path && lib.pathIsRegularFile path);
 
-  patchArgs = (lib.flip lib.pipe) [
+  replacePathsToExecutables = (lib.flip lib.pipe) [
     (lib.mapAttrsToList (from: to: assert isFilePath to; { inherit from to; }))
     (lib.foldAttrs (x: a: [x] ++ a) [])
+    ({ from, to }: builtins.replaceStrings from to)
   ];
 
-  patchFn =
-    let inherit (patchArgs (dependencies // scriptsPaths)) from to;
-    in  builtins.replaceStrings from to;
+  replaceTerminal =
+    assert ! isNull terminalDark  -> isFilePath terminalDark;
+    assert ! isNull terminalLight -> isFilePath terminalLight;
+    (lib.flip lib.pipe) [
+      lines
+
+      (map (line:
+        let
+          darkMatch  = builtins.match "^(set \\$terminal_dark ).*$"  line;
+          lightMatch = builtins.match "^(set \\$terminal_light ).*$" line;
+        in
+
+        if terminalDark != null && darkMatch != null
+        then "${builtins.elemAt darkMatch 0}\"${terminalDark}\""
+        else
+
+        if terminalLight != null && lightMatch != null
+        then "${builtins.elemAt lightMatch 0}\"${terminalLight}\""
+        else
+
+        line
+      ))
+
+      unlines
+    ];
+
+  patchConfig = (lib.flip lib.pipe) [
+    (replacePathsToExecutables (dependencies // scriptsPaths))
+    replaceTerminal
+  ];
 
   dependencies = {
     jq = "${jq}/bin/jq";
@@ -98,7 +129,7 @@ writeTextFile {
   text = ''
     ${
       assert isFilePath __configFile;
-      patchFn (builtins.readFile __configFile)
+      patchConfig (builtins.readFile __configFile)
     }
     ${
       if isNull autostartScript
