@@ -77,10 +77,7 @@ let
     builtins.isString path ||
     (builtins.isPath path && lib.pathIsRegularFile path);
 
-  # TODO Move this to ‘nix-utils’
-  pipeline = lib.flip (builtins.foldl' (acc: fn: fn acc));
-
-  patchArgs = pipeline [
+  patchArgs = (lib.flip lib.pipe) [
     (lib.mapAttrsToList (from: to: assert isFilePath to; { inherit from to; }))
     (lib.foldAttrs (x: a: [x] ++ a) [])
   ];
@@ -114,7 +111,7 @@ writeTextFile {
   checkPhase = ''
     set -Eeuo pipefail
     ${
-      lib.flip pipeline
+      lib.pipe
         (builtins.attrValues dependencies)
         [
           (map shellCheckers.fileIsExecutable)
