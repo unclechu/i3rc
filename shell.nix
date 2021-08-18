@@ -46,12 +46,23 @@ let
 
   dash = "${pkgs.dash}/bin/dash";
 
-  show-i3-config = writeCheckedExecutable "show-i3-config" ''
-    ${shellCheckers.fileIsExecutable dash}
-  '' ''
-    #! ${dash}
-    cat -- ${esc i3-config}
-  '';
+  show-i3-config =
+    let name = "show-i3-config"; in
+    writeCheckedExecutable name ''
+      ${shellCheckers.fileIsExecutable dash}
+    '' ''
+      #! ${dash}
+      set -eu
+      if [ $# -eq 0 ]; then
+        cat -- ${esc i3-config}
+      elif [ $# -eq 1 ] && [ $1 = file ]; then
+        printf '%s\n' ${esc i3-config}
+      else
+        >&2 echo 'Incorrect arguments'
+        >&2 printf 'Usage: %s [file]\n' ${esc name}
+        exit 1
+      fi
+    '';
 
   cursor-to-display = pkgs.callPackage nix/apps/cursor-to-display.nix { __utils = utils; };
   pamng = pkgs.callPackage nix/apps/pamng.nix { __utils = utils; };
