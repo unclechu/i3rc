@@ -50,7 +50,7 @@ let
     ${shellCheckers.fileIsExecutable dash}
   '' ''
     #! ${dash}
-    cat -- ${esc (i3-config.services.xserver.windowManager.i3.configFile)}
+    cat -- ${esc i3-config}
   '';
 
   cursor-to-display = pkgs.callPackage nix/apps/cursor-to-display.nix { __utils = utils; };
