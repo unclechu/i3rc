@@ -56,6 +56,12 @@ let sources = import nix/sources.nix; in
 
 , terminalDark  ? null # Optional path to an executable of terminal emulator (dark  color scheme)
 , terminalLight ? null # Optional path to an executable of terminal emulator (light color scheme)
+
+, runDark  ? null # Optional path to an executable of command runner (dark  color scheme)
+, runLight ? null # Optional path to an executable of command runner (light color scheme)
+
+, drunDark  ? null # Optional path to an executable of desktop application (dark  color scheme)
+, drunLight ? null # Optional path to an executable of desktop application (light color scheme)
 }:
 
 assert builtins.isAttrs scriptsPaths;
@@ -106,9 +112,42 @@ let
       line
     ));
 
+  replaceRunners =
+    assert ! isNull runDark   -> isFilePath runDark;
+    assert ! isNull runLight  -> isFilePath runLight;
+    assert ! isNull drunDark  -> isFilePath drunDark;
+    assert ! isNull drunLight -> isFilePath drunLight;
+    lib.flip mapStringAsLines (map (line:
+      let
+        runDarkMatch   = builtins.match "^(set \\$run_dark ).*$"   line;
+        runLightMatch  = builtins.match "^(set \\$run_light ).*$"  line;
+        drunDarkMatch  = builtins.match "^(set \\$drun_dark ).*$"  line;
+        drunLightMatch = builtins.match "^(set \\$drun_light ).*$" line;
+      in
+
+      if runDark != null && runDarkMatch != null
+      then "${builtins.elemAt runDarkMatch 0}\"${lib.escape ["\""] runDark}\""
+      else
+
+      if runLight != null && runLightMatch != null
+      then "${builtins.elemAt runLightMatch 0}\"${lib.escape ["\""] runLight}\""
+      else
+
+      if drunDark != null && drunDarkMatch != null
+      then "${builtins.elemAt drunDarkMatch 0}\"${lib.escape ["\""] drunDark}\""
+      else
+
+      if drunLight != null && drunLightMatch != null
+      then "${builtins.elemAt drunLightMatch 0}\"${lib.escape ["\""] drunLight}\""
+      else
+
+      line
+    ));
+
   patchConfig = lib.flip lib.pipe [
     (replacePathsToExecutables (dependencies // scriptsPaths))
     replaceTerminal
+    replaceRunners
   ];
 
   dependencies = {
