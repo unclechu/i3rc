@@ -34,10 +34,13 @@ set $resume_proc_rec "( n=0; rec() { set -eu || return; if (( ++n > 10 )); then 
 set $terminal_dark  "if &>/dev/null type termite-dark;  then termite-dark;  elif &>/dev/null type termite; then termite; else i3-sensible-terminal; fi"
 set $terminal_light "if &>/dev/null type termite-light; then termite-light; elif &>/dev/null type termite; then termite; else i3-sensible-terminal; fi"
 
-set $run_dark "gmrun"
-set $run_light "gmrun"
-set $drun_dark "dmenu_run"
+set $run_dark   "gmrun"
+set $run_light  "gmrun"
+set $drun_dark  "dmenu_run"
 set $drun_light "dmenu_run"
+
+set $select_window_dark  "rofi -show window"
+set $select_window_light "rofi -show window"
 
 # Font for window titles. Will also be used by the bar unless a different font
 # is used in the ‘bar {}’ block below.
@@ -61,10 +64,14 @@ bindsym $m+Return    exec $terminal_dark
 bindsym $m+$a+Return exec $terminal_light
 
 # also: i3-dmenu-desktop
-bindsym $m+semicolon exec $run_dark
-bindsym $m+$a+semicolon exec $run_light
-bindsym $m+$s+semicolon exec $drun_dark
+bindsym $m+semicolon       exec $run_dark
+bindsym $m+$a+semicolon    exec $run_light
+bindsym $m+$s+semicolon    exec $drun_dark
 bindsym $m+$s+$a+semicolon exec $drun_light
+
+# run window selection app
+bindsym $m+slash    exec $select_window_dark
+bindsym $m+$a+slash exec $select_window_light
 
 bindsym $m+apostrophe exec gpaste-gui.pl
 bindsym $m+$a+apostrophe exec gpaste-gui.pl -m=choose

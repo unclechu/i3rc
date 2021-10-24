@@ -60,8 +60,11 @@ let sources = import nix/sources.nix; in
 , runDark  ? null # Optional path to an executable of command runner (dark  color scheme)
 , runLight ? null # Optional path to an executable of command runner (light color scheme)
 
-, drunDark  ? null # Optional path to an executable of desktop application (dark  color scheme)
-, drunLight ? null # Optional path to an executable of desktop application (light color scheme)
+, drunDark  ? null # Optional path to an executable of desktop application runner (dark  color scheme)
+, drunLight ? null # Optional path to an executable of desktop application runner (light color scheme)
+
+, selectWindowDark  ? null # Optional path to an executable of window selection app (dark  color scheme)
+, selectWindowLight ? null # Optional path to an executable of window selection app (light color scheme)
 }:
 
 assert builtins.isAttrs scriptsPaths;
@@ -144,10 +147,31 @@ let
       line
     ));
 
+  replaceWindowSelectionApp =
+    assert ! isNull selectWindowDark   -> isFilePath selectWindowDark;
+    assert ! isNull selectWindowLight  -> isFilePath selectWindowLight;
+    lib.flip mapStringAsLines (map (line:
+      let
+        selectWindowDarkMatch  = builtins.match "^(set \\$select_window_dark ).*$"  line;
+        selectWindowLightMatch = builtins.match "^(set \\$select_window_light ).*$" line;
+      in
+
+      if selectWindowDark != null && selectWindowDarkMatch != null
+      then "${builtins.elemAt selectWindowDarkMatch 0}\"${lib.escape ["\""] selectWindowDark}\""
+      else
+
+      if selectWindowLight != null && selectWindowLightMatch != null
+      then "${builtins.elemAt selectWindowLightMatch 0}\"${lib.escape ["\""] selectWindowLight}\""
+      else
+
+      line
+    ));
+
   patchConfig = lib.flip lib.pipe [
     (replacePathsToExecutables (dependencies // scriptsPaths))
     replaceTerminal
     replaceRunners
+    replaceWindowSelectionApp
   ];
 
   dependencies = {

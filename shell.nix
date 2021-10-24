@@ -30,6 +30,15 @@ args@
 , terminalDark  ? null # Optional path to an executable of terminal emulator (dark  color scheme)
 , terminalLight ? null # Optional path to an executable of terminal emulator (light color scheme)
 
+, runDark  ? null # Optional path to an executable of command runner (dark  color scheme)
+, runLight ? null # Optional path to an executable of command runner (light color scheme)
+
+, drunDark  ? null # Optional path to an executable of desktop application runner (dark  color scheme)
+, drunLight ? null # Optional path to an executable of desktop application runner (light color scheme)
+
+, selectWindowDark  ? null # Optional path to an executable of window selection app (dark  color scheme)
+, selectWindowLight ? null # Optional path to an executable of window selection app (light color scheme)
+
 # ↓ Local options ↓
 , with-i3-config ? true
 , with-cursor-to-display ? false
@@ -47,6 +56,12 @@ let
     // (if builtins.hasAttr "scriptsPaths" args then { inherit scriptsPaths; } else {})
     // (if builtins.hasAttr "terminalDark" args then { inherit terminalDark; } else {})
     // (if builtins.hasAttr "terminalLight" args then { inherit terminalLight; } else {})
+    // (if builtins.hasAttr "runDark" args then { inherit runDark; } else {})
+    // (if builtins.hasAttr "runLight" args then { inherit runLight; } else {})
+    // (if builtins.hasAttr "drunDark" args then { inherit drunDark; } else {})
+    // (if builtins.hasAttr "drunLight" args then { inherit drunLight; } else {})
+    // (if builtins.hasAttr "selectWindowDark" args then { inherit selectWindowDark; } else {})
+    // (if builtins.hasAttr "selectWindowLight" args then { inherit selectWindowLight; } else {})
   );
 
   dash = "${pkgs.dash}/bin/dash";
