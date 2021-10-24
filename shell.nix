@@ -27,6 +27,9 @@ args@
   # See the asserts below for available script names for overriding.
   scriptsPaths ? null
 
+, terminalDark  ? null # Optional path to an executable of terminal emulator (dark  color scheme)
+, terminalLight ? null # Optional path to an executable of terminal emulator (light color scheme)
+
 # ↓ Local options ↓
 , with-i3-config ? true
 , with-cursor-to-display ? false
@@ -38,10 +41,12 @@ let
   appArgs = if builtins.hasAttr "utils" args then { __utils = utils; } else {};
 
   i3-config = pkgs.callPackage ./. (
-    { __nix-utils = nix-utils; } //
-    (if builtins.hasAttr "__configFile" args then { inherit __configFile; } else {}) //
-    (if builtins.hasAttr "autostartScript" args then { inherit autostartScript; } else {}) //
-    (if builtins.hasAttr "scriptsPaths" args then { inherit scriptsPaths; } else {})
+    { __nix-utils = nix-utils; }
+    // (if builtins.hasAttr "__configFile" args then { inherit __configFile; } else {})
+    // (if builtins.hasAttr "autostartScript" args then { inherit autostartScript; } else {})
+    // (if builtins.hasAttr "scriptsPaths" args then { inherit scriptsPaths; } else {})
+    // (if builtins.hasAttr "terminalDark" args then { inherit terminalDark; } else {})
+    // (if builtins.hasAttr "terminalLight" args then { inherit terminalLight; } else {})
   );
 
   dash = "${pkgs.dash}/bin/dash";
