@@ -197,10 +197,10 @@ bindsym $m+$a+z move container to workspace prev_on_output
 bindsym $m+$a+x move container to workspace next_on_output
 bindsym $m+b exec $new_workspace
 
-bindsym $m+comma move workspace to left
-bindsym $m+$s+comma move workspace to down
-bindsym $m+period move workspace to right
-bindsym $m+$s+period move workspace to up
+bindsym $m+comma     move workspace to output left
+bindsym $m+$s+comma  move workspace to output down
+bindsym $m+period    move workspace to output right
+bindsym $m+$s+period move workspace to output up
 
 # reload the configuration file
 bindsym $m+$a+c reload
