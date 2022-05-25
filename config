@@ -642,7 +642,9 @@ for_window [title="^Android Emulator"] floating enable
 for_window [class="^Gmrun$"]           move position center
 
 for_window [class="Firefox" window_role="^PictureInPicture$"] floating enable
+for_window [class="firefox" window_role="^PictureInPicture$"] floating enable
 for_window [class="Firefox" window_role="^PictureInPicture$"] sticky   enable
+for_window [class="firefox" window_role="^PictureInPicture$"] sticky   enable
 
 # Sticky by default when switching to floating
 for_window [class="^vlc$"]      sticky enable
