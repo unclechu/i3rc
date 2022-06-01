@@ -5,7 +5,7 @@
 let sources = import ../sources.nix; in
 { callPackage
 , perl
-, xlibs # Just for ‘xrandr’
+, xorg # Just for ‘xrandr’
 , xdotool
 
 # Overridable dependencies
@@ -24,7 +24,7 @@ let
   perl-exe = "${perl}/bin/perl";
 
   dependencies = {
-    xrandr = xlibs.xrandr;
+    xrandr = xorg.xrandr;
     xdotool = xdotool;
   };
 

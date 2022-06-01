@@ -11,7 +11,7 @@ let sources = import ../sources.nix; in
 , dbus
 , pcre
 , xdotool
-, xlibs # Just for ‘xwininfo’
+, xorg # Just for ‘xwininfo’
 
 # Overridable dependencies
 , __nix-utils ? callPackage sources.nix-utils {}
@@ -76,6 +76,6 @@ in
 wrapExecutable "${invert-window-colors}/bin/invert-window-colors" {
   deps = [
     xdotool
-    xlibs.xwininfo
+    xorg.xwininfo
   ];
 }
